@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="BDMS.Api/BDMS.Api.csproj" />
+  <Project Path="BDMS.Application/BDMS.Application.csproj" />
+  <Project Path="BDMS.Domain/BDMS.Domain.csproj" />
+  <Project Path="BDMS.Infrastructure/BDMS.Infrastructure.csproj" />
+</Solution>

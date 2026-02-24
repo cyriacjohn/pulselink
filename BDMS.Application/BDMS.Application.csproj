@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BDMS.Domain\BDMS.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

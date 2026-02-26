@@ -1,11 +1,13 @@
 ﻿using BDMS.Application.Services;
 using BDMS.Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BDMS.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class DonorsController : ControllerBase
     {
         private readonly DonorService _service;

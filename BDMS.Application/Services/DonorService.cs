@@ -25,11 +25,11 @@ namespace BDMS.Application.Services
         {
             var donor = new Donor(
                 dto.Name,
-                dto.Address,
-                dto.Phone,
                 dto.Email,
+                dto.Phone,
+                dto.BloodGroup,
                 dto.Age,
-                dto.BloodGroup
+                dto.Address
                 );
             await _repository.AddAsync(donor);
             await _repository.SaveChangesAsync();

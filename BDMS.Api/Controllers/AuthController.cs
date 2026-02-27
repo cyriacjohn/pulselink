@@ -49,7 +49,7 @@ namespace BDMS.Api.Controllers
             }
             var token = GenerateJwtToken(user);
             return Ok(new { token });
-        }
+        .}
 
         private string GenerateJwtToken(BDMS.Domain.Entities.User user)
         {

@@ -33,7 +33,7 @@ namespace BDMS.Api.Controllers
             var result = await _authService.RegisterAsync(dto);
             if(!result)
             {
-                return BadRequest("Username already exists");
+                return BadRequest("Username or Email already exists");
             }
             return Ok("User registered successfully");
         }
@@ -49,7 +49,7 @@ namespace BDMS.Api.Controllers
             }
             var token = GenerateJwtToken(user);
             return Ok(new { token });
-        .}
+        }
 
         private string GenerateJwtToken(BDMS.Domain.Entities.User user)
         {
@@ -68,6 +68,17 @@ namespace BDMS.Api.Controllers
                 signingCredentials: credentials);
 
             return new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var result = await _authService.DeleteUserAsync(id);
+            if(!result)
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
     }
 }

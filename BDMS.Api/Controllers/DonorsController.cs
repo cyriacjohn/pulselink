@@ -7,7 +7,7 @@ namespace BDMS.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class DonorsController : ControllerBase
     {
         private readonly DonorService _service;

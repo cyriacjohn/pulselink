@@ -33,5 +33,25 @@ namespace BDMS.Infrastructure.Repositories
         {
             await _db.SaveChangesAsync();
         }
+
+        public async Task<User?> GetByIdAsync(int id)
+        {
+            return await _db.Users.FindAsync(id);
+        }
+
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<List<User?>> GetAllAsyc(int pageNumber, int pageSize)
+        {
+            return await _db.Users.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+
+        public void Remove(User user)
+        {
+            _db.Users.Remove(user);
+        }
     }
 }

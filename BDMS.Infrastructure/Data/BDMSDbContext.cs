@@ -34,6 +34,13 @@ namespace BDMS.Infrastructure.Data
                 .HasMaxLength(5);
             }
                 );
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.UserName) .IsUnique();
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

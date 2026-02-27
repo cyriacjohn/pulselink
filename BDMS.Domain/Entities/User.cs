@@ -23,5 +23,14 @@ namespace BDMS.Domain.Entities
             Email = email;
             Role = role;
         }
+
+        public  void UpdateRole(string newRole)
+        {
+            if(newRole != "Admin" && newRole != "User")
+            {
+                throw new ArgumentException("Invalid role specified.");
+            }
+            Role = newRole; 
+        }
     }
 }

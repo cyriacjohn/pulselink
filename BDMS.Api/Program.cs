@@ -50,6 +50,8 @@ options.UseSqlServer(
 );
 builder.Services.AddScoped<IDonorRepository, DonorRepository>();
 builder.Services.AddScoped<DonorService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<AuthService>();
 
 var keyString = builder.Configuration["Jwt:Key"];
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));

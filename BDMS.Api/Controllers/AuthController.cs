@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BDMS.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BDMS.Application.DTOs;
+using System.Threading.Tasks;
+using BDMS.Domain.Entities;
 
 namespace BDMS.Api.Controllers
 {
@@ -12,45 +16,58 @@ namespace BDMS.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly AuthService _authService;
 
 
-        public AuthController(IConfiguration config)
+        public AuthController(IConfiguration config, AuthService service)
         {
             _config = config;
+            _authService = service;
+
+        }
+
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterDTO dto)
+        {
+            var result = await _authService.RegisterAsync(dto);
+            if(!result)
+            {
+                return BadRequest("Username already exists");
+            }
+            return Ok("User registered successfully");
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Login()
+        public async Task<IActionResult> Login(LoginDTO dto)
         {
-            var keyString = _config["Jwt:Key"];
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
-            var claims = new[]
+            var user = await _authService.ValidateUserAsync(dto);
+            if(user == null)
             {
-                new Claim(ClaimTypes.Name, "AdminUser")
-            };
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(60),
-                SigningCredentials = new SigningCredentials(
-                   key,
-                    SecurityAlgorithms.HmacSha256)
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Ok(new { token = tokenHandler.WriteToken(token) });
+                return Unauthorized("Invalid credentials.");
+            }
+            var token = GenerateJwtToken(user);
+            return Ok(new { token });
         }
 
-        [AllowAnonymous]
-        [HttpGet("test")]
-        public IActionResult Test()
+        private string GenerateJwtToken(BDMS.Domain.Entities.User user)
         {
-            var authHeader = Request.Headers["Authorization"].ToString();
-            return Ok(new { header = authHeader });
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Role, user.Role)
+            };
+
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(60),
+                signingCredentials: credentials);
+
+            return new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

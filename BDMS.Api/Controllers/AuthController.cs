@@ -26,8 +26,9 @@ namespace BDMS.Api.Controllers
 
         }
 
-        [AllowAnonymous]
+        
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterDTO dto)
         {
             var result = await _authService.RegisterAsync(dto);
@@ -38,8 +39,9 @@ namespace BDMS.Api.Controllers
             return Ok("User registered successfully");
         }
 
-        [AllowAnonymous]
+        
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDTO dto)
         {
             var user = await _authService.ValidateUserAsync(dto);

@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using BDMS.Application.Interfaces;
 using BDMS.Application.Services;
 using BDMS.Infrastructure.Repositories;
-using BDMS.Api.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BDMS.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +48,7 @@ options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<IDonorRepository, DonorRepository>();
 builder.Services.AddScoped<DonorService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -89,6 +90,15 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:4200").AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        }
+        );
+});
 var app = builder.Build();
 using(var scope = app.Services.CreateScope())
 {
@@ -103,9 +113,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
-
+app.UseCors("AllowAngular");
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 

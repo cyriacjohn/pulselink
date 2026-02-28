@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 
-namespace BDMS.Api.Middleware
+namespace BDMS.Api
 {
     public class ExceptionMiddleware
     {

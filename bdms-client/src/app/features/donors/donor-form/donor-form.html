@@ -1,0 +1,36 @@
+<h2>Create Donor</h2>
+
+<form [formGroup]="data" (ngSubmit)="submit()">
+
+  <div>
+    <label>Name:</label>
+    <input formControlName="name" />
+    </div>
+
+  <div>
+    <label>Email:</label>
+    <input type="email" formControlName="email" />
+  </div>
+
+  <div>
+    <label>Phone:</label>
+    <input formControlName="phone" />
+  </div>
+
+  <div>
+    <label>BloodGroup:</label>
+    <input formControlName="bloodGroup" />
+  </div>
+
+  <div>
+    <label>Age:</label>
+    <input type="number" formControlName="age" />
+  </div>
+
+  <div>
+    <label>Address</label>
+    <input formControlName="address" />
+  </div>
+
+  <button type="submit">Save</button>
+</form>

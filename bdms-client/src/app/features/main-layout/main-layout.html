@@ -1,0 +1,18 @@
+<div class="layout">
+  <aside class="sidebar">
+    <h3>BDMS</h3>
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/donors">Donors</a>
+  </aside>
+
+  <div class="content">
+    <nav class="navbar">
+      <button (click)="logOut()">Logout</button>
+    </nav>
+
+    <main>
+      <router-outlet></router-outlet>
+      <app-spinner></app-spinner>
+    </main>
+  </div>
+</div>

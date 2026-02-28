@@ -1,0 +1,29 @@
+<h2>Donors</h2>
+
+<button routerLink="/donors/create" *ngIf="isAdmin">Add Donor</button>
+
+<table border="1" *ngIf="donors.length > 0">
+  <tr>
+   <th>Name</th>
+    <th>Email</th>
+    <th>Blood Group</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let donor of donors">
+    <td> {{ donor.name }} </td>
+    <td> {{ donor.email }} </td>
+    <td> {{ donor.bloodGroup }} </td>
+    <td><button (click)="deleteDonor(donor.id)" *ngIf="isAdmin">Delete</button></td>
+    <td><button [routerLink]="['/donors/edit',donor.id]" *ngIf="isAdmin">Edit</button></td>
+  </tr>
+</table>
+
+<p *ngIf="donors.length == 0">No donors found.</p>
+
+<div style="margin-top: 20px;">
+  <button (click)="previousPage()">Previous</button>
+  <span>Page {{ pageNumber }}</span>
+  <button (click)="nextPage()">Next</button>
+</div>

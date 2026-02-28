@@ -1,0 +1,29 @@
+.ticker {
+    overflow: hidden;
+    white-space: nowrap;
+    background: red;
+    padding: 10px;
+    color: white;
+    margin-top: 20px;
+}
+
+.ticker-content {
+    display: flex;
+    gap: 50px;
+    animation: scroll 60s linear infinite;
+}
+
+.ticket-item {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}

@@ -1,0 +1,27 @@
+import { Routes } from '@angular/router';
+import { Login } from './features/auth/login/login';
+import { Dashboard } from './features/dashboard/dashboard';
+import { AuthGuard } from './core/guards/auth.guard';
+import { Donors } from './features/donors/donors';
+import { MainLayout } from './features/main-layout/main-layout';
+import { DonorForm } from './features/donors/donor-form/donor-form';
+
+
+export const routes: Routes = [
+  {
+    path: '', component: MainLayout, canActivate: [AuthGuard],
+    children: [
+      { path: 'dashboard', component: Dashboard},
+      { path: 'donors', component: Donors },
+      {
+        path: 'donors/create', component: DonorForm
+      },
+      {
+        path: 'donors/edit/:id', component: DonorForm
+      }
+    ]
+  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: Login },
+  
+];

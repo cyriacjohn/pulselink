@@ -4,6 +4,7 @@ using BDMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BDMS.Infrastructure.Migrations
 {
     [DbContext(typeof(BDMSDbContext))]
-    partial class BDMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260301043645_AddHospital")]
+    partial class AddHospital
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,64 +24,6 @@ namespace BDMS.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("BDMS.Domain.Entities.BloodInventory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BloodGroup")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HospitalId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UnitsAvailable")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HospitalId", "BloodGroup")
-                        .IsUnique();
-
-                    b.ToTable("BloodInventory");
-                });
-
-            modelBuilder.Entity("BDMS.Domain.Entities.Donation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CertificateNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DonationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DonorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HospitalId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DonorId");
-
-                    b.HasIndex("HospitalId");
-
-                    b.ToTable("Donations");
-                });
 
             modelBuilder.Entity("BDMS.Domain.Entities.Donor", b =>
                 {
@@ -95,9 +40,10 @@ namespace BDMS.Infrastructure.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("BloodGroup")
+                    b.Property<string>("BloodGroup")
+                        .IsRequired()
                         .HasMaxLength(5)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -229,36 +175,6 @@ namespace BDMS.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("BDMS.Domain.Entities.BloodInventory", b =>
-                {
-                    b.HasOne("BDMS.Domain.Entities.Hospital", "Hospital")
-                        .WithMany()
-                        .HasForeignKey("HospitalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hospital");
-                });
-
-            modelBuilder.Entity("BDMS.Domain.Entities.Donation", b =>
-                {
-                    b.HasOne("BDMS.Domain.Entities.Donor", "Donor")
-                        .WithMany()
-                        .HasForeignKey("DonorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BDMS.Domain.Entities.Hospital", "Hospital")
-                        .WithMany()
-                        .HasForeignKey("HospitalId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Donor");
-
-                    b.Navigation("Hospital");
                 });
 #pragma warning restore 612, 618
         }

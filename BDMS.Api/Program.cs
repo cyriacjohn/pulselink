@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BDMS.Api;
+using BDMS.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,11 @@ builder.Services.AddScoped<IDonorRepository, DonorRepository>();
 builder.Services.AddScoped<DonorService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IDonationRepository, DonationRepository>();
+builder.Services.AddScoped<DonationService>();
+builder.Services.AddScoped<CertificateGenerator>();
+builder.Services.AddScoped<HospitalService>();
+builder.Services.AddScoped<IBloodInventoryRepository, BloodInventoryRepository>();
 
 var keyString = builder.Configuration["Jwt:Key"];
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
@@ -120,7 +126,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 app.Run();
 
 

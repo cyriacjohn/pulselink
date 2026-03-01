@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BDMS.Domain.Enums;
 
 namespace BDMS.Application.DTOs
 {
@@ -19,7 +20,7 @@ namespace BDMS.Application.DTOs
         [MaxLength(20)]
         public string Phone { get; set; }
         [Required]
-        public string BloodGroup { get; set; }
+        public BloodGroup BloodGroup { get; set; }
         [Range(18, 65)]
         public int Age { get; set; }
         public string Address { get; set; }

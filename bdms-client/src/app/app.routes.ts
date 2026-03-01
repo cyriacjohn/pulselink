@@ -5,6 +5,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { Donors } from './features/donors/donors';
 import { MainLayout } from './features/main-layout/main-layout';
 import { DonorForm } from './features/donors/donor-form/donor-form';
+import { ThankYou } from './features/thank-you/thank-you';
 
 
 export const routes: Routes = [
@@ -18,6 +19,9 @@ export const routes: Routes = [
       },
       {
         path: 'donors/edit/:id', component: DonorForm
+      },
+      {
+        path: 'thank-you', component: ThankYou
       }
     ]
   },

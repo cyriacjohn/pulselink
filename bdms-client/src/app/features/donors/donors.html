@@ -9,6 +9,7 @@
     <th>Blood Group</th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
 
   <tr *ngFor="let donor of donors">
@@ -17,8 +18,10 @@
     <td> {{ donor.bloodGroup }} </td>
     <td><button (click)="deleteDonor(donor.id)" *ngIf="isAdmin">Delete</button></td>
     <td><button [routerLink]="['/donors/edit',donor.id]" *ngIf="isAdmin">Edit</button></td>
+    <td><button (click)="openDonateModal(donor)" class="btn btn-success btn-sm">Donate</button></td>
   </tr>
 </table>
+
 
 <p *ngIf="donors.length == 0">No donors found.</p>
 
@@ -26,4 +29,23 @@
   <button (click)="previousPage()">Previous</button>
   <span>Page {{ pageNumber }}</span>
   <button (click)="nextPage()">Next</button>
+</div>
+
+<div *ngIf="selectedDonor" class="donation-model">
+  <h4>Donate Blood</h4>
+  <p><strong>Donor:</strong>{{selectedDonor.name}}</p>
+
+  <select #hospitalId class="form-control">
+    <option *ngFor="let h of hospitals" [value]="h.id">
+      {{h.name}} - {{h.city}}
+    </option>
+  </select>
+
+  <button class="btn btn-primary mt-2" (click)="confirmDonation(+hospitalId.value)">
+    Confirm Donation
+  </button>
+
+  <button class="btn btn-secondary mt-2" (click)="selectedDonor = null">
+    Cancel
+  </button>
 </div>

@@ -1,10 +1,16 @@
 <h2>Donors</h2>
 
 <button routerLink="/donors/create" *ngIf="isAdmin">Add Donor</button>
+<select class="form-select w-auto" [(ngModel)]="selectedStatus" (change)="loadDonors()" *ngIf="isAdmin">
+  <option [ngValue]="null">All</option>
+  <option [ngValue]="0">Pending</option>
+  <option [ngValue]="1">Completed</option>
+  <option [ngValue]="2">Rejected</option>
+</select>
 
 <table border="1" *ngIf="donors.length > 0">
   <tr>
-   <th>Name</th>
+    <th>Name</th> 
     <th>Email</th>
     <th>Blood Group</th>
     <th></th>
@@ -15,7 +21,7 @@
   <tr *ngFor="let donor of donors">
     <td> {{ donor.name }} </td>
     <td> {{ donor.email }} </td>
-    <td> {{ donor.bloodGroup }} </td>
+    <td> {{ getBloodGroupText(donor.bloodGroup) }} </td>
     <td><button (click)="deleteDonor(donor.id)" *ngIf="isAdmin">Delete</button></td>
     <td><button [routerLink]="['/donors/edit',donor.id]" *ngIf="isAdmin">Edit</button></td>
     <td><button (click)="openDonateModal(donor)" class="btn btn-success btn-sm">Donate</button></td>

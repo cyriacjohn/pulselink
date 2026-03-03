@@ -31,6 +31,16 @@ namespace BDMS.Infrastructure.Repositories
         {
             await _dbContext.SaveChangesAsync();
         }
+
+        public IQueryable<BloodInventory> QueryWithIncludes()
+        {
+            return _dbContext.BloodInventory;
+        }
+
+        public async Task AddAsync(BloodInventory inventory)
+        {
+            await _dbContext.BloodInventory.AddAsync(inventory);
+        }
     }
 }
 

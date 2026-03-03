@@ -59,6 +59,7 @@ builder.Services.AddScoped<DonationService>();
 builder.Services.AddScoped<CertificateGenerator>();
 builder.Services.AddScoped<HospitalService>();
 builder.Services.AddScoped<IBloodInventoryRepository, BloodInventoryRepository>();
+builder.Services.AddScoped<DashboardService>();
 
 var keyString = builder.Configuration["Jwt:Key"];
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));

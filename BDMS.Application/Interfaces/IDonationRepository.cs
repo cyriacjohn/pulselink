@@ -14,5 +14,6 @@ namespace BDMS.Application.Interfaces
         Task SaveChangesAsync();
         Task<List<Donation>> GetAllAsync();
         Task<Donation> GetByIdWithDetailsAsync(int id);
+        IQueryable<Donation> QueryWithIncludes();
     }
 }

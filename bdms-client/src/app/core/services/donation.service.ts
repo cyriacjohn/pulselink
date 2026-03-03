@@ -14,4 +14,13 @@ export class DonationService {
   donate(donorId: number, hospitalId: number) {
     return this.http.post(`${environment.apiUrl}/donation`, { donorId, hospitalId }, { responseType: 'blob' });
   }
+
+  approve(donorId: number) {
+    return this.http.post(`${environment.apiUrl}/donation/{donorId}/approve`, {});
+  }
+
+  reject(donorId: number) {
+    return this.http.post(`${environment.apiUrl}/donation/{donorId}/reject`, {});
+  }
 }
+

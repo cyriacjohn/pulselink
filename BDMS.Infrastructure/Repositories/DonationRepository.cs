@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using BDMS.Application.Interfaces;
+using BDMS.Domain.Enums;
 
 namespace BDMS.Infrastructure.Repositories
 {
@@ -41,6 +42,11 @@ namespace BDMS.Infrastructure.Repositories
             return await _dbContext.Donations.Include(d => d.Donor)
                                              .Include(d => d.Hospital)
                                              .FirstAsync(d => d.Id == id);
+        }
+
+        public IQueryable<Donation> QueryWithIncludes()
+        {
+            return _dbContext.Donations.Include(d => d.Donor).Include(d => d.Hospital);
         }
     }
 }

@@ -19,7 +19,16 @@
 
   <div>
     <label>BloodGroup:</label>
-    <input formControlName="bloodGroup" />
+    <select formControlName="bloodGroup">
+    <option [ngValue]="0">A+</option>
+    <option [ngValue]="1">A-</option>
+    <option [ngValue]="2">B+</option>
+    <option [ngValue]="3">B-</option>
+    <option [ngValue]="4">AB+</option>
+    <option [ngValue]="5">AB-</option>
+    <option [ngValue]="6">O+</option>
+    <option [ngValue]="7">O-</option>
+      </select>
   </div>
 
   <div>

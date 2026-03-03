@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BDMS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace BDMS.Domain.Entities
         public string CertificateNumber { get; set; } = string.Empty;
         public Donor Donor { get; set; }
         public Hospital Hospital { get; set; }
+        public DonationStatus Status { get; set; }
 
     }
 }

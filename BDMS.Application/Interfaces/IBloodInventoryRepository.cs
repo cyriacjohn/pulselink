@@ -12,5 +12,7 @@ namespace BDMS.Application.Interfaces
     {
         Task<BloodInventory?> GetByHospitalAndBloodGroup(int hospitalId, BloodGroup bloodGroup);
         Task SaveChangesAsync();
+        IQueryable<BloodInventory> QueryWithIncludes();
+        Task AddAsync(BloodInventory inventory);
     }
 }

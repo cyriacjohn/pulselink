@@ -7,11 +7,12 @@ import { AuthService } from '../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { HospitalService } from '../../core/services/hospital.service';
 import { DonationService } from '../../core/services/donation.service';
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-donors',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './donors.html',
   styleUrl: './donors.css',
 })
@@ -24,13 +25,14 @@ export class Donors implements OnInit {
   selected: any = null;
   hospitals: any[] = [];
   selectedDonor: any = null;
+  selectedStatus: number | null = null;
   constructor(private donorService: DonorService, private router: Router, private cdr: ChangeDetectorRef, private authService: AuthService, private hospitalService: HospitalService, private donationService: DonationService, private toastr: ToastrService) { }
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
     this.loadDonors();
   }
   loadDonors() {
-    this.donorService.getAll(this.pageNumber, this.pageSize).subscribe(
+    this.donorService.getAll(this.pageNumber, this.pageSize, this.selectedStatus).subscribe(
       {
         next: (res: any) => {
           this.donors = res.data ?? res;
@@ -84,7 +86,22 @@ export class Donors implements OnInit {
       const fileURL = window.URL.createObjectURL(pdfBlob);
       window.open(fileURL);
       this.selectedDonor = null;
-      this.router.navigate(['/thank-you']);      
+      this.router.navigate(['/thank-you']);
     });
   }
+
+  getBloodGroupText(value: number): string {
+    switch (value) {
+      case 0: return 'A+';
+      case 1: return 'A-';
+      case 2: return 'B+';
+      case 3: return 'B-';
+      case 4: return 'O+';
+      case 5: return 'O-';
+      case 6: return 'AB+';
+      case 7: return 'AB-';
+      default: return '';
+    }
+  }
 }
+

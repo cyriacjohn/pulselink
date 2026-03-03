@@ -9,10 +9,11 @@ import { Observable } from 'rxjs';
 
 export class DonorService {
   private apiUrl = `${environment.apiUrl}/donors`;
+  selectedStatus: number | null = null;
 
   constructor(private http: HttpClient) { }
-  getAll(pageNumber: number, pageSize: number) {
-    return this.http.get(`${this.apiUrl}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+  getAll(pageNumber: number, pageSize: number, selectedStatus: number | null = null) {
+    return this.http.get(`${this.apiUrl}?pageNumber=${pageNumber}&pageSize=${pageSize}&status=${selectedStatus}`);
   }
 
   create(data: any) {

@@ -22,7 +22,7 @@ export class DonorForm {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(20)]],
-      bloodGroup: ['', Validators.required],
+      bloodGroup: [null, Validators.required],
       age: [null, [Validators.required, Validators.min(18), Validators.max(65)]],
       address: [null, Validators.required]
     });

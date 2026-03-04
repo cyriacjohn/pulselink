@@ -16,11 +16,19 @@ export class DonationService {
   }
 
   approve(donorId: number) {
-    return this.http.post(`${environment.apiUrl}/donation/{donorId}/approve`, {});
+    return this.http.post(`${environment.apiUrl}/donation/${donorId}/approve`, {});
   }
 
   reject(donorId: number) {
-    return this.http.post(`${environment.apiUrl}/donation/{donorId}/reject`, {});
+    return this.http.post(`${environment.apiUrl}/donation/${donorId}/reject`, {});
+  }
+
+  getAll(status?: number | null) {
+    let url = `${environment.apiUrl}/donation`;
+    if (status !== undefined) {
+      url += `?status=${status}`;
+    }
+    return this.http.get<any[]>(url);
   }
 }
 

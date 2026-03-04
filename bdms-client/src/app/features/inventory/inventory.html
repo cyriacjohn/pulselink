@@ -1,0 +1,22 @@
+<h3>Inventory</h3>
+
+<table class="table table-striped" border="1">
+  <thead>
+    <tr>
+      <th>Hospital</th>
+      <th>Blood Group</th>
+      <th>Units Available</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of inventory">
+      <td> {{ item.hospital }} </td>
+      <td>
+        <span>"badge bg-danger"</span>
+        {{ item.bloodGroup }}
+      </td>
+      <td>{{ item.unitsAvailable }}</td>
+    </tr>
+  </tbody>
+
+</table>

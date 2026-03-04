@@ -1,0 +1,43 @@
+<h3>Donations</h3>
+
+<div class="mb-3">
+  <label>Status:</label>
+  <select [ngModel]="selectedStatus" class="form-select" (change)="onStatusChange()">
+    <option value="null">All</option>
+    <option value="0">Pending</option>
+    <option value="1">Approved</option>
+    <option value="2">Completed</option>
+    <option value="3">Rejected</option>
+  </select>
+</div>
+<table class="table" border="1" *ngIf="donations.length > 0">
+  <thead>
+    <tr>
+      <th>Donor</th>
+      <th>Hospital</th>
+      <th>Blood</th>
+      <th>Date</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let donation of donations">
+      <td>{{ donation.donorName }}</td>
+      <td>{{ donation.hospitalName }}</td>
+      <td>{{ donation.bloodGroup }}</td>
+      <td>{{ donation.donationDate | date: 'short' }}</td>
+      <td>
+        <span (ngClass)="
+              {'badge bg-warning': donation.status == 0,
+               'badge bg-success': donation.status == 1,
+                'badge bg-primary': donation.status == 2,
+                'badge bg-danger': donation.status == 3}">{{ getStatusText(donation.Status)}}</span>
+      </td>
+
+      <td *ngIf="isAdmin && donation.status == 0">
+        <button class="btn btn-sm btn-success" (click)="approve(donation.id)">Approve</button>
+        <button class="btn btn-sm btn-danger" (click)="reject(donation.id)">Reject</button>
+</tr>
+  </tbody>
+</table>
+

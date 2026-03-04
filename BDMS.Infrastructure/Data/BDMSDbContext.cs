@@ -17,6 +17,7 @@ namespace BDMS.Infrastructure.Data
         public DbSet<Hospital> Hospitals => Set<Hospital>();
         public DbSet<Donation> Donations => Set<Donation>();
         public DbSet<BloodInventory> BloodInventory => Set<BloodInventory>();
+        public DbSet<Notification> Notifications => Set<Notification>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

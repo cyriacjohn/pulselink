@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BDMS.Api;
 using BDMS.Infrastructure.Services;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 

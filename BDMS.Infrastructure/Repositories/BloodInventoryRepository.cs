@@ -34,7 +34,7 @@ namespace BDMS.Infrastructure.Repositories
 
         public IQueryable<BloodInventory> QueryWithIncludes()
         {
-            return _dbContext.BloodInventory;
+            return _dbContext.BloodInventory.Include(i => i.Hospital);
         }
 
         public async Task AddAsync(BloodInventory inventory)

@@ -61,6 +61,8 @@ builder.Services.AddScoped<CertificateGenerator>();
 builder.Services.AddScoped<HospitalService>();
 builder.Services.AddScoped<IBloodInventoryRepository, BloodInventoryRepository>();
 builder.Services.AddScoped<DashboardService>();
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
+builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
 var keyString = builder.Configuration["Jwt:Key"];
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));

@@ -3,16 +3,20 @@ using BDMS.Domain.Entities;
 using BDMS.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using BDMS.Application.DTOs;
+using System.Text.Json;
+using BDMS.Application.Interfaces;
 
 namespace BDMS.Infrastructure.Services
 {
     public class HospitalService
     {
         private readonly BDMSDbContext _dbContext;
+        private readonly ICacheService _cache;
 
-        public HospitalService(BDMSDbContext dbContext)
+        public HospitalService(BDMSDbContext dbContext, ICacheService cache)
         {
             _dbContext = dbContext;
+            _cache = cache;
         }
 
         public async Task<Hospital> CreateAsync(CreateHospitalDTO dto)
@@ -26,6 +30,7 @@ namespace BDMS.Infrastructure.Services
             };
 
             await _dbContext.AddAsync(hospital);
+            await _cache.DeleteAsync("hospitals");
             await _dbContext.SaveChangesAsync();
 
             foreach (BloodGroup group in Enum.GetValues(typeof(BloodGroup)))
@@ -44,9 +49,25 @@ namespace BDMS.Infrastructure.Services
             return hospital;
         }
 
-        public async Task<List<Hospital>> GetAllAsync()
+        public async Task<IEnumerable<Hospital>> GetAllAsync()
         {
-            return await _dbContext.Hospitals.ToListAsync();
+            var cacheKey = "hospitals";
+            var cachedData = await _cache.GetAsync(cacheKey);
+            if (cachedData != null)
+            {
+                return JsonSerializer.Deserialize<List<Hospital>>(cachedData);
+            }
+            var hospitals = await _dbContext.Hospitals.ToListAsync();
+            var result = hospitals.Select(h => new Hospital
+            {
+                Id = h.Id,
+                Name = h.Name,
+                City = h.City,
+                Address = h.Address,
+                ContactPhone = h.ContactPhone
+            }).ToList();
+            await _cache.SetAsync(cacheKey, JsonSerializer.Serialize(result), TimeSpan.FromMinutes(10));
+            return result;
         }
     }
 }

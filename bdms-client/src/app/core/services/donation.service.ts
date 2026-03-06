@@ -25,7 +25,7 @@ export class DonationService {
 
   getAll(status?: number | null) {
     let url = `${environment.apiUrl}/donation`;
-    if (status !== undefined) {
+    if (status !== null) {
       url += `?status=${status}`;
     }
     return this.http.get<any[]>(url);

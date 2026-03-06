@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 
-
 namespace BDMS.Application.Services
 {
     public class DonationService
@@ -20,12 +19,14 @@ namespace BDMS.Application.Services
         private readonly IDonorRepository _donorRepository;
         private readonly IBloodInventoryRepository _bloodInventoryRepository;
         private readonly ICacheService _cache;
-        public DonationService(IDonationRepository donationRepository, IDonorRepository donorRepository, IBloodInventoryRepository bloodInventoryRepository, ICacheService cache)
+        private readonly INotificationService _notification;
+        public DonationService(IDonationRepository donationRepository, IDonorRepository donorRepository, IBloodInventoryRepository bloodInventoryRepository, ICacheService cache, INotificationService notification)
         {
             _donationRepository = donationRepository;
             _donorRepository = donorRepository;
             _bloodInventoryRepository = bloodInventoryRepository;
             _cache = cache;
+            _notification = notification;
         }
 
         public async Task<Donation> CreateAsync(CreateDonationDTO dto)
@@ -109,6 +110,7 @@ namespace BDMS.Application.Services
                 inventory.UnitsAvailable += 1;
             }
             await _donationRepository.SaveChangesAsync();
+            await _notification.NotifyDonationUpdated(donationId, "Donation approved");
             await _cache.DeleteAsync("dashboard_stats");
         }
 

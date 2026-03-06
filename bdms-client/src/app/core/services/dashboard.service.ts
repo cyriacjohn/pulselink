@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 export class DashboardService {
   constructor(private http: HttpClient) { }
-  get() {
+  get(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/dashboard`);
   }
 }

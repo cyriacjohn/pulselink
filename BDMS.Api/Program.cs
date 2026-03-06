@@ -9,6 +9,8 @@ using System.Text;
 using BDMS.Api;
 using BDMS.Infrastructure.Services;
 using StackExchange.Redis;
+using BDMS.Infrastructure.RealTime;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +65,8 @@ builder.Services.AddScoped<IBloodInventoryRepository, BloodInventoryRepository>(
 builder.Services.AddScoped<DashboardService>();
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
 builder.Services.AddScoped<ICacheService, RedisCacheService>();
+builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
+builder.Services.AddSignalR();
 
 var keyString = builder.Configuration["Jwt:Key"];
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
@@ -105,7 +109,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngular",
         policy =>
         {
-            policy.WithOrigins("https://localhost:4200").AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+            policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
         }
         );
 });
@@ -130,6 +134,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<NotificationHub>("/api/notifications");
 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 app.Run();
 

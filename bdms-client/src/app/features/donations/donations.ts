@@ -53,9 +53,13 @@ export class Donations {
   getStatusText(status: number): string {
     switch (status) {
       case 0: return 'Pending';
+        break;
       case 1: return 'Approved';
+        break;
       case 2: return 'Completed';
+        break;
       case 3: return 'Rejected';
+        break;
       default: return '';
     }
   }

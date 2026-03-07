@@ -41,7 +41,7 @@ namespace BDMS.Infrastructure.Repositories
         {
             return await _dbContext.Donations.Include(d => d.Donor)
                                              .Include(d => d.Hospital)
-                                             .FirstAsync(d => d.Id == id);
+                                             .FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public IQueryable<Donation> QueryWithIncludes()

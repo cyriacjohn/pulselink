@@ -27,11 +27,12 @@
       <td>{{ donation.bloodGroup }}</td>
       <td>{{ donation.donationDate | date: 'short' }}</td>
       <td>
-        <span (ngClass)="
-              {'badge bg-warning': donation.status == 0,
+        <span [ngClass]="
+              {
+              'badge bg-warning': donation.status == 0,
                'badge bg-success': donation.status == 1,
                 'badge bg-primary': donation.status == 2,
-                'badge bg-danger': donation.status == 3}">{{ getStatusText(donation.Status)}}</span>
+                'badge bg-danger': donation.status == 3}">{{ getStatusText(donation.status)}}</span>
       </td>
 
       <td *ngIf="isAdmin && donation.status == 0">

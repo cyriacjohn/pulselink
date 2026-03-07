@@ -93,7 +93,7 @@ namespace BDMS.Application.Services
             {
                 throw new Exception("Only pending donations can be approved");
             }
-            donation.Status = DonationStatus.Completed;
+            donation.Status = DonationStatus.Approved;
             var inventory = await _bloodInventoryRepository.GetByHospitalAndBloodGroup(donation.HospitalId, donation.Donor.BloodGroup);
             if (inventory == null)
             {

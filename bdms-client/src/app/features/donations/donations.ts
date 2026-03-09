@@ -6,6 +6,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DonationService } from '../../core/services/donation.service';
 import { FormsModule } from '@angular/forms';
+import { NotificationService } from '../../core/services/notification.service'; 
 
 @Component({
   selector: 'app-donations',
@@ -18,11 +19,14 @@ export class Donations {
   isAdmin = false;
   selectedStatus: number | null = null;
 
-  constructor(private donationService: DonationService, private router: Router, private cdr: ChangeDetectorRef, private authService: AuthService) { }
+  constructor(private donationService: DonationService, private router: Router, private cdr: ChangeDetectorRef, private authService: AuthService, private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.isAdmin = this.authService.isAdmin();
     this.loadDonations();
+    this.notificationService.donationUpdated.subscribe(() => {
+      this.loadDonations();
+    })
   }
 
   loadDonations() {
@@ -64,7 +68,8 @@ export class Donations {
     }
   }
 
-  onStatusChange() {
+  onStatusChange(event: any) {
+    this.selectedStatus = event.target.value === '' ? null : Number(event.target.value);
     this.loadDonations();
   }
 }

@@ -1,0 +1,28 @@
+<div class="container mt-5" style="max-width:400px">
+
+  <h3 class="text-center mb-4">Register</h3>
+
+  <form (submit)="register()">
+
+    <div class="mb-3">
+      <label>Name</label>
+      <input type="text" class="form-control" [(ngModel)]="model.name" name="name" />
+    </div>
+
+    <div class="mb-3">
+      <label>Email</label>
+      <input type="email" class="form-control" [(ngModel)]="model.email" name="email" />
+    </div>
+
+    <div class="password">
+      <label>Password</label>
+      <input type="password" class="form-control" [(ngModel)]="model.password" name="password" />
+    </div>
+
+    <button class="btn btn-danger w-00">Register</button>
+  </form>
+
+  <div class="text-center mt-3">
+    <a routerLink="/login">Already have an account?</a>
+  </div>
+</div>

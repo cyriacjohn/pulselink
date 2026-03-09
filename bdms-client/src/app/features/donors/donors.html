@@ -1,12 +1,12 @@
 <h2>Donors</h2>
 
 <button routerLink="/donors/create" *ngIf="isAdmin">Add Donor</button>
-<select class="form-select w-auto" [(ngModel)]="selectedStatus" (change)="loadDonors()" *ngIf="isAdmin">
+<!--<select class="form-select w-auto" [(ngModel)]="selectedStatus" (change)="loadDonors()" *ngIf="isAdmin">
   <option [ngValue]="null">All</option>
   <option [ngValue]="0">Pending</option>
   <option [ngValue]="1">Completed</option>
   <option [ngValue]="2">Rejected</option>
-</select>
+</select>-->
 
 <table border="1" *ngIf="donors.length > 0">
   <tr>

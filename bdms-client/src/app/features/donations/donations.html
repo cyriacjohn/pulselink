@@ -2,15 +2,15 @@
 
 <div class="mb-3">
   <label>Status:</label>
-  <select [ngModel]="selectedStatus" class="form-select" (change)="onStatusChange()">
-    <option value="null">All</option>
+  <select [ngModel]="selectedStatus" class="form-select" (change)="onStatusChange($event)">
+    <option value="">All</option>
     <option value="0">Pending</option>
     <option value="1">Approved</option>
     <option value="2">Completed</option>
     <option value="3">Rejected</option>
   </select>
 </div>
-<table class="table" border="1" *ngIf="donations.length > 0">
+<table class="table table-striped table-hover" border="1" *ngIf="donations.length > 0">
   <thead>
     <tr>
       <th>Donor</th>

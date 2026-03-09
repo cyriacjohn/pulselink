@@ -14,7 +14,7 @@ namespace BDMS.Domain.Entities
         public int HospitalId { get; set; }
 
         public DateTime DonationDate { get; set; }
-        public string CertificateNumber { get; set; } = string.Empty;
+        public string? CertificateNumber { get; set; } = string.Empty;
         public Donor Donor { get; set; }
         public Hospital Hospital { get; set; }
         public DonationStatus Status { get; set; }

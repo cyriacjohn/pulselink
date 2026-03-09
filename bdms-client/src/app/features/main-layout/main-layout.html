@@ -1,10 +1,18 @@
 <div class="layout">
   <aside class="sidebar">
     <h3>BDMS</h3>
-    <a routerLink="/dashboard">Dashboard</a>
-    <a routerLink="/donors">Donors</a>
-    <a routerLink="/donations">Donations</a>
-    <a routerLink="/inventory">Inventory</a>
+    <div *ngIf="isAdmin">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/donors">Donors</a>
+      <a routerLink="/donations">Donations</a>
+      <a routerLink="/inventory">Inventory</a>
+    </div>
+
+    <div *ngIf="!isAdmin">
+      <a routerLink="/donate">Donate Blood</a>
+      <a routerLink="/my-donations">My Donations</a>
+      <a routerLink="certificates">Certificates</a>
+    </div>
   </aside>
 
   <div class="content">

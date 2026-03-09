@@ -1,0 +1,10 @@
+<h2>Donate Blood</h2>
+
+<form (submit)="donate()">
+
+  <select [(ngModel)]="model.hospitalId" name="hospital">
+    <option *ngFor="let h of hospitals" value="h.id">{{h.name}}</option>
+  </select>
+
+  <button class="btn btn-danger">Donate</button>
+</form>

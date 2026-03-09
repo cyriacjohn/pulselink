@@ -3,6 +3,7 @@ import { News } from '../../core/services/news';
 import { CommonModule } from '@angular/common';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { Chart } from 'chart.js/auto';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,7 @@ export class Dashboard {
   ngOnInit(): void {
     this.loadNews();
     this.loadStats();
+    this.createChart();
     this.notificationService.startConnection();
     this.notificationService.onDonationUpdate(() => {
       console.log("Live update received"); 
@@ -37,6 +39,20 @@ export class Dashboard {
   loadStats() {
     this.dashboardService.get().subscribe(res => {
       this.stats = res.stats;
+    })
+  }
+
+  createChart() {
+    new Chart('donationChart', {
+      type: 'bar',
+      data: {
+        labels: ["A+", "B+", "O+", "AB+"],
+        datasets: [{
+          label: "Blood Group Donations",
+          data: [12, 19, 18, 4],
+          backgroundColor: ["red", "blue", "green", "purple"]
+        }]
+      }
     })
   }
 }

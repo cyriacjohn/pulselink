@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <h3>My Donations</h3>
+  <table class="table table-hover table-striped shadow-sm">
+    <thead>
+      <tr>
+        <th>Hospital</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Certificate</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let donation of donations">
+        <td>{{ donation.hospital.name }}</td>
+        <td>{{ donation.donationDate | date }}</td>
+        <td>
+          <span [ngClass]="
+        {
+        'badge bg-warning': donation.status == 0,
+         'badge bg-success': donation.status == 1,
+          'badge bg-primary': donation.status == 2,
+          'badge bg-danger': donation.status == 3}">{{ getStatusText(donation.status)}}</span>
+        </td>
+        <td>
+          <button *ngIf="donation.status === 1" class="btn btn-primary btn-sm" (click)="download(donation.id)">Download</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

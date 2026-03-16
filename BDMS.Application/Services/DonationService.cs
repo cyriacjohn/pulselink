@@ -9,6 +9,7 @@ using BDMS.Domain.Entities;
 using BDMS.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using System.Security.Claims;
 
 
 namespace BDMS.Application.Services
@@ -31,11 +32,13 @@ namespace BDMS.Application.Services
 
         public async Task<Donation> CreateAsync(CreateDonationDTO dto)
         {
+            // Retrieve donor from repository instead of attempting to access a Controller/HttpContext User.
             var donor = await _donorRepository.GetByIdAsync(dto.DonorId);
             if (donor == null)
             {
                 throw new Exception("Donor not found");
             }
+
             var donation = new Donation
             {
                 DonorId = dto.DonorId,
@@ -46,6 +49,7 @@ namespace BDMS.Application.Services
             };
 
             await _donationRepository.AddAsync(donation);
+
             var inventory = await _bloodInventoryRepository.GetByHospitalAndBloodGroup(dto.HospitalId, donor.BloodGroup);
             if (inventory != null)
             {
@@ -151,5 +155,24 @@ namespace BDMS.Application.Services
             return stats;
         }
 
+        public async Task<List<Donation>> GetByDonorIdAsync(int donorId)
+        {
+            return await _donationRepository.GetByDonorIdAsync(donorId);
+        }
+
+        public async Task<byte[]> GenerateCertificateAsync(int donationId)
+        {
+            return await _donationRepository.GenerateCertificateAsync(donationId);
+        }
+
+        public async Task<Dictionary<string, int>> GetBloodGroupStatsAsync()
+        {
+            return await _donationRepository.GetBloodGroupStatsAsync();
+        }
+
+        public async Task<Dictionary<string, int>> GetBloodGroupStatsByUserAsync(int id)
+        {
+            return await _donationRepository.GetBloodGroupStatsByUserAsync(id);
+        }
     }
 }

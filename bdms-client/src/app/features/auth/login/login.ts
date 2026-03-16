@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class Login {
       .subscribe({
         next: (res:any) => {
           this.authService.saveToken(res.token);
+          localStorage.setItem("donorId", res.donorId);
           setTimeout(() => {
             this.router.navigate(['/dashboard']);
           });

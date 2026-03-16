@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,15 @@ export class AuthService {
 
   isAdmin(): boolean {
   return this.getRole() == 'Admin';
+  }
+
+  getUserId() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+    const decoded: any = jwtDecode(token);
+    return Number(decoded.nameId);
   }
 }
 

@@ -12,6 +12,11 @@ export class HospitalService {
   constructor(private http: HttpClient) { }
 
   getHospitals() {
-    return this.http.get<any[]>(`${environment.apiUrl}/hospitals`);
+    const token = localStorage.getItem('token');
+    return this.http.get<any[]>(`${environment.apiUrl}/hospitals`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+}
+    });
   }
 }

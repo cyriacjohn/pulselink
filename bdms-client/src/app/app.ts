@@ -2,11 +2,11 @@ import { Component, signal, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import {NotificationService} from './core/services/notification.service';
+import { NotificationService } from './core/services/notification.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HttpClientModule],
+  imports: [RouterOutlet, HttpClientModule, FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

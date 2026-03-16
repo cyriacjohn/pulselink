@@ -15,5 +15,9 @@ namespace BDMS.Application.Interfaces
         Task<List<Donation>> GetAllAsync();
         Task<Donation> GetByIdWithDetailsAsync(int id);
         IQueryable<Donation> QueryWithIncludes();
+        Task<List<Donation>> GetByDonorIdAsync(int id);
+        Task<byte[]> GenerateCertificateAsync(int donationId);
+        Task<Dictionary<string, int>> GetBloodGroupStatsAsync();
+        Task<Dictionary<string, int>> GetBloodGroupStatsByUserAsync(int id);
     }
 }

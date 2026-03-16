@@ -12,7 +12,7 @@ export class DonationService {
   constructor(private http: HttpClient) { }
 
   donate(donorId: number, hospitalId: number) {
-    return this.http.post(`${environment.apiUrl}/donation`, { donorId, hospitalId }, { responseType: 'blob' });
+    return this.http.post(`${environment.apiUrl}/donation`, { donorId: donorId, hospitalId: hospitalId }, { responseType: 'blob' });
   }
 
   approve(donorId: number) {
@@ -29,6 +29,14 @@ export class DonationService {
       url += `?status=${status}`;
     }
     return this.http.get<any[]>(url);
+  }
+
+  donateUser(hospitalId: number) {
+    return this.http.post(`${environment.apiUrl}/donation`, { hospitalId: hospitalId }, { responseType: 'blob' });
+  }
+
+  downloadCertificate(id: number) {
+    return this.http.get(`${environment.apiUrl}/donation/${id}/certificate`, { responseType: 'blob'});
   }
 }
 

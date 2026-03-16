@@ -50,7 +50,7 @@ namespace BDMS.Api.Controllers
                 return Unauthorized("Invalid credentials.");
             }
             var token = GenerateJwtToken(user);
-            return Ok(new { token });
+            return Ok(new { token = token, donorId = user.Id });
         }
 
         private string GenerateJwtToken(BDMS.Domain.Entities.User user)
@@ -58,6 +58,7 @@ namespace BDMS.Api.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var claims = new[]
             {
+                new Claim(ClaimTypes.NameIdentifier, Convert.ToString(user.Id)),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, user.Role)
             };

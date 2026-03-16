@@ -11,7 +11,7 @@ import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, RouterModule, SpinnerComponent],
+  imports: [RouterOutlet, RouterModule, SpinnerComponent, CommonModule],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
 })

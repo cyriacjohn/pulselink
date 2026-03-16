@@ -9,9 +9,9 @@ import { ThankYou } from './features/thank-you/thank-you';
 import { Donations } from './features/donations/donations';
 import { Inventory } from './features/inventory/inventory';
 import { Register } from './features/auth/register/register';
-import { Donate } from './features/donate/donate';
-import { MyDonations } from './features/my-donations/my-donations';
-import { Certificates } from './features/certificates/certificates';
+import { Donate } from './donations/donate/donate';
+import { MyDonations } from './features/donations/my-donations/my-donations';
+import { UserDashboard } from './features/user-dashboard/user-dashboard';
 
 
 export const routes: Routes = [
@@ -42,7 +42,7 @@ export const routes: Routes = [
         path: 'my-donations', component: MyDonations
       },
       {
-        path: 'certificates', component: Certificates
+        path: 'user-dashboard', component: UserDashboard
       }
     ]
   },

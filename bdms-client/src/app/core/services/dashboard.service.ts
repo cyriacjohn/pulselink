@@ -12,4 +12,8 @@ export class DashboardService {
   get(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/dashboard`);
   }
+
+  getBloodGroupStats() {
+    return this.http.get(`${environment.apiUrl}/donation/stats/bloodgroups`);
+  }
 }

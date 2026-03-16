@@ -1,0 +1,24 @@
+<div class="container mt-5 d-flex justify-content-center">
+
+  <div class="card shadow-sm" style="max-width:500px">
+    <div class="card-header bg-danger text-white">Donate Blood</div>
+
+    <div class="card-body">
+      <p class="text-muted">
+        Select a hospital where you donated blood. Your request will be sent for admin approval.
+      </p>
+      <div class="mb-3">
+        <label class="form-label">Select Hospital</label>
+
+        <select class="form-control" [(ngModel)]="donation.hospitalId" name="hospitalId">
+          <option *ngFor="let h of hospitals" [value]="h.id">
+            {{ h.name }} - {{ h.city }}
+          </option>
+        </select>
+        </div>
+
+        <button class="btn btn-success mt-3" (click)="donate()" [disabled]="!donation.hospitalId">Donate</button>
+      </div>
+    </div>
+  </div>
+

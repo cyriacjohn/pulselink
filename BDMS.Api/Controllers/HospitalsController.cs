@@ -10,7 +10,7 @@ namespace BDMS.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, User")]
     public class HospitalsController : ControllerBase
     {
         private readonly HospitalService _service;

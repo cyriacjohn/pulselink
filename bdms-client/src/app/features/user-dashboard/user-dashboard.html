@@ -1,0 +1,42 @@
+<h3>Latest Blood Donation News</h3>
+
+<div class="ticker">
+  <div class="ticker-content">
+    <div *ngFor="let item of news" class="ticker-item">
+      {{item.title}} &nbsp;&nbsp; • &nbsp;&nbsp;
+    </div>
+  </div>
+</div>
+
+<canvas id="donationChart"></canvas>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="card bg-primary text-white">
+      <div class="card-body">
+        <h6>Total Donations</h6>
+        <h2>{{stats?.totalDonations}}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card bg-warning text-white">
+      <div class="card-body">
+        <h6>Pending Donations</h6>
+        <h2>{{stats?.pendingDonations}}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card bg-danger text-white">
+      <div class="card-body">
+        <h6>Rejected Donations</h6>
+        <h2>{{stats?.rejectedDonations}}</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+

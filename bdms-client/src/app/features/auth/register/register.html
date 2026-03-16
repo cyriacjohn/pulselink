@@ -2,11 +2,11 @@
 
   <h3 class="text-center mb-4">Register</h3>
 
-  <form (submit)="register()">
+  <form (ngSubmit)="register()">
 
     <div class="mb-3">
       <label>Name</label>
-      <input type="text" class="form-control" [(ngModel)]="model.name" name="name" />
+      <input type="text" class="form-control" [(ngModel)]="model.username" name="username" />
     </div>
 
     <div class="mb-3">
@@ -23,6 +23,6 @@
   </form>
 
   <div class="text-center mt-3">
-    <a routerLink="/login">Already have an account?</a>
+    <a href="/login">Already have an account?</a>
   </div>
 </div>

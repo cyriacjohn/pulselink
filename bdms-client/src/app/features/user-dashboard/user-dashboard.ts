@@ -1,4 +1,4 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { News } from '../../core/services/news';
 import { CommonModule } from '@angular/common';
 import { DashboardService } from '../../core/services/dashboard.service';
@@ -6,12 +6,12 @@ import { NotificationService } from '../../core/services/notification.service';
 import { Chart } from 'chart.js/auto';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-user-dashboard',
   imports: [CommonModule],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
+  templateUrl: './user-dashboard.html',
+  styleUrl: './user-dashboard.css',
 })
-export class Dashboard {
+export class UserDashboard {
   news: any[] = [];
   stats: any;
   recentDonations: any[] = [];
@@ -24,7 +24,7 @@ export class Dashboard {
     this.createChart();
     this.notificationService.startConnection();
     this.notificationService.onDonationUpdate(() => {
-      console.log("Live update received"); 
+      console.log("Live update received");
       this.loadStats();
     });
     this.cdr.detectChanges();
@@ -35,6 +35,7 @@ export class Dashboard {
       this.news = res.articles?.slice(0, 10) ?? [];
     });
   }
+
 
   loadStats() {
     this.dashboardService.get().subscribe(res => {

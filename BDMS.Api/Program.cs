@@ -63,7 +63,7 @@ builder.Services.AddScoped<CertificateGenerator>();
 builder.Services.AddScoped<HospitalService>();
 builder.Services.AddScoped<IBloodInventoryRepository, BloodInventoryRepository>();
 builder.Services.AddScoped<DashboardService>();
-builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
+//builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
 builder.Services.AddScoped<ICacheService, RedisCacheService>();
 builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
 builder.Services.AddSignalR();

@@ -1,15 +1,16 @@
-# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY . .
+COPY BDMS.sln .
+COPY BDMS.Api/ BDMS.Api/
+COPY BDMS.Application/ BDMS.Application/
+COPY BDMS.Domain/ BDMS.Domain/
+COPY BDMS.Infrastructure/ BDMS.Infrastructure/
 
-RUN 1s  #
+RUN dotnet restore BDMS.Api/BDMS.Api.csproj
 
-RUN dotnet restore ./BDMS.sln
-RUN dotnet publish ./BDMS.Api/BDMS.Api.csproj -c Release -o /app/publish
+RUN dotnet publish BDMS.Api/BDMS.Api.csproj -c Release -o /app/publish
 
-# Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 

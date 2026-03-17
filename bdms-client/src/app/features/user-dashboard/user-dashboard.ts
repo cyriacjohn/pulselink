@@ -20,12 +20,10 @@ export class UserDashboard {
 
   ngOnInit(): void {
     this.loadNews();
-    this.loadStats();
     this.createChart();
     this.notificationService.startConnection();
     this.notificationService.onDonationUpdate(() => {
       console.log("Live update received");
-      this.loadStats();
     });
     this.cdr.detectChanges();
   }
@@ -36,26 +34,23 @@ export class UserDashboard {
     });
   }
 
-
-  loadStats() {
-    this.dashboardService.get().subscribe(res => {
-      this.stats = res.stats;
-    })
-  }
-
   createChart() {
-    this.dashboardService.getBloodGroupStats().subscribe((res: any) => {
+    this.dashboardService.getMyDonationStats().subscribe((res: any) => {
       const labels = Object.keys(res);
       const values = Object.values(res);
-      new Chart('donationChart', {
-        type: 'bar',
+      new Chart('userChart', {
+        type: 'pie',
         data: {
           labels: labels,
           datasets: [{
-            label: "Blood Group Donations",
+            label: "My Donations",
             data: values,
             backgroundColor: ["red", "blue", "green", "purple"]
           }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
         }
       })
     })

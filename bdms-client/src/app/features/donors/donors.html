@@ -1,57 +1,59 @@
-<h2>Donors</h2>
+<div class="container mt-4">
 
-<button routerLink="/donors/create" *ngIf="isAdmin">Add Donor</button>
-<!--<select class="form-select w-auto" [(ngModel)]="selectedStatus" (change)="loadDonors()" *ngIf="isAdmin">
-  <option [ngValue]="null">All</option>
-  <option [ngValue]="0">Pending</option>
-  <option [ngValue]="1">Completed</option>
-  <option [ngValue]="2">Rejected</option>
-</select>-->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="fw-bold">Donors</h3>
 
-<table border="1" *ngIf="donors.length > 0">
-  <tr>
-    <th>Name</th> 
-    <th>Email</th>
-    <th>Blood Group</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+    <button routerLink="/donors/create" *ngIf="isAdmin">+ Add Donor</button>
+  </div>
 
-  <tr *ngFor="let donor of donors">
-    <td> {{ donor.name }} </td>
-    <td> {{ donor.email }} </td>
-    <td> {{ getBloodGroupText(donor.bloodGroup) }} </td>
-    <td><button (click)="deleteDonor(donor.id)" *ngIf="isAdmin">Delete</button></td>
-    <td><button [routerLink]="['/donors/edit',donor.id]" *ngIf="isAdmin">Edit</button></td>
-    <td><button (click)="openDonateModal(donor)" class="btn btn-success btn-sm">Donate</button></td>
-  </tr>
-</table>
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <table border="1" *ngIf="donors.length > 0" class="table table-hover mb-0 text-center align-middle">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Blood Group</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
 
+        <tr *ngFor="let donor of donors">
+          <td> {{ donor.name }} </td>
+          <td> {{ donor.email }} </td>
+          <td> {{ getBloodGroupText(donor.bloodGroup) }} </td>
+          <td><button (click)="deleteDonor(donor.id)" *ngIf="isAdmin">Delete</button></td>
+          <td><button [routerLink]="['/donors/edit',donor.id]" *ngIf="isAdmin">Edit</button></td>
+          <td><button (click)="viewDonations(donor.id)" class="btn btn-success btn-sm" *ngIf="isAdmin">View Donations</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
-<p *ngIf="donors.length == 0">No donors found.</p>
+  <p *ngIf="donors.length == 0">No donors found.</p>
 
-<div style="margin-top: 20px;">
-  <button (click)="previousPage()">Previous</button>
-  <span>Page {{ pageNumber }}</span>
-  <button (click)="nextPage()">Next</button>
-</div>
+  <div style="margin-top: 20px;">
+    <button (click)="previousPage()">Previous</button>
+    <span>Page {{ pageNumber }}</span>
+    <button (click)="nextPage()">Next</button>
+  </div>
 
-<div *ngIf="selectedDonor" class="donation-model">
-  <h4>Donate Blood</h4>
-  <p><strong>Donor:</strong>{{selectedDonor.name}}</p>
+  <div *ngIf="selectedDonor" class="donation-model">
+    <h4>Donate Blood</h4>
+    <p><strong>Donor:</strong>{{selectedDonor.name}}</p>
 
-  <select #hospitalId class="form-control">
-    <option *ngFor="let h of hospitals" [value]="h.id">
-      {{h.name}} - {{h.city}}
-    </option>
-  </select>
+    <select #hospitalId class="form-control">
+      <option *ngFor="let h of hospitals" [value]="h.id">
+        {{h.name}} - {{h.city}}
+      </option>
+    </select>
 
-  <button class="btn btn-primary mt-2" (click)="confirmDonation(+hospitalId.value)">
-    Confirm Donation
-  </button>
+    <button class="btn btn-primary mt-2" (click)="confirmDonation(+hospitalId.value)">
+      Confirm Donation
+    </button>
 
-  <button class="btn btn-secondary mt-2" (click)="selectedDonor = null">
-    Cancel
-  </button>
+    <button class="btn btn-secondary mt-2" (click)="selectedDonor = null">
+      Cancel
+    </button>
+  </div>
 </div>

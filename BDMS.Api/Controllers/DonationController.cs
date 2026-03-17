@@ -93,5 +93,12 @@ namespace BDMS.Api.Controllers
             var stats = await _service.GetBloodGroupStatsByUserAsync(userId);
             return Ok(stats);
         }
+
+        [HttpGet("by-donor/{Id}")]
+        public async Task <IActionResult> GetByDonor(int id)
+        {
+            var donations = await _service.GetByDonorAsync(id);
+            return Ok(donations);
+        }
     }
 }

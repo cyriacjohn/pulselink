@@ -68,12 +68,16 @@ namespace BDMS.Application.Services
             return String.Concat("CERT-", Guid.NewGuid().ToString()[..8].ToUpper());
         }
 
-        public async Task<List<DonationDTO>> GetAllAsync(DonationStatus? status = null)
+        public async Task<List<DonationDTO>> GetAllAsync(DonationStatus? status = null, int? donorId = null)
         {
             var query = _donationRepository.QueryWithIncludes();
             if (status.HasValue)
             {
                 query = query.Where(d => d.Status == status.Value);
+            }
+            if(donorId.HasValue)
+            {
+                query = query.Where(d => d.DonorId == donorId.Value);
             }
             return await query.OrderByDescending(d => d.DonationDate).Select(d => new DonationDTO
             {
@@ -173,6 +177,11 @@ namespace BDMS.Application.Services
         public async Task<Dictionary<string, int>> GetBloodGroupStatsByUserAsync(int id)
         {
             return await _donationRepository.GetBloodGroupStatsByUserAsync(id);
+        }
+
+        public async Task<List<Donation>> GetByDonorAsync(int donorId)
+        {
+            return await _donationRepository.GetByDonorAsync(donorId);
         }
     }
 }

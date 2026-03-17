@@ -6,7 +6,8 @@ import { AuthService } from '../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DonationService } from '../../core/services/donation.service';
 import { FormsModule } from '@angular/forms';
-import { NotificationService } from '../../core/services/notification.service'; 
+import { NotificationService } from '../../core/services/notification.service';
+import { ActivatedRoute } from '@angular/router'; 
 
 @Component({
   selector: 'app-donations',
@@ -18,19 +19,28 @@ export class Donations {
   donations: any[] = [];
   isAdmin = false;
   selectedStatus: number | null = null;
+  donorId: number | null = null
 
-  constructor(private donationService: DonationService, private router: Router, private cdr: ChangeDetectorRef, private authService: AuthService, private notificationService: NotificationService) { }
+  constructor(private donationService: DonationService, private router: Router, private cdr: ChangeDetectorRef, private authService: AuthService, private notificationService: NotificationService, private toastr: ToastrService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.isAdmin = this.authService.isAdmin();
-    this.loadDonations();
+    this.route.queryParams.subscribe(params => {
+      this.donorId = params['donorId'] ? +params['donorId'] : null;
+      if (this.donorId) {
+        this.loadDonationsByDonor(this.donorId);
+      }
+      else {
+        this.loadDonations();
+      }
+    });
     this.notificationService.donationUpdated.subscribe(() => {
       this.loadDonations();
     })
   }
 
   loadDonations() {
-    this.donationService.getAll(this.selectedStatus).subscribe({
+    this.donationService.getAll(this.selectedStatus, this.donorId).subscribe({
       next: (res: any) => {
         this.donations = res;
       }
@@ -40,6 +50,7 @@ export class Donations {
   approve(donorId: number) {
     this.donationService.approve(donorId).subscribe({
       next: () => {
+        this.toastr.success('Donation approved');
         this.loadDonations();
       }
     })
@@ -71,5 +82,13 @@ export class Donations {
   onStatusChange(event: any) {
     this.selectedStatus = event.target.value === '' ? null : Number(event.target.value);
     this.loadDonations();
+  }
+
+  loadDonationsByDonor(donorId: number) {
+    this.donationService.getByDonor(donorId).subscribe({
+      next: (res: any) => {
+        this.donations = res;
+      }
+    })
   }
 }

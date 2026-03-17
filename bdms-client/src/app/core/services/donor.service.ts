@@ -18,7 +18,7 @@ export class DonorService {
 
   create(data: any) {
     return this.http.post(`${this.apiUrl}`, data);
-  }
+  } 
 
   delete(id: string) {
     return this.http.delete(`${this.apiUrl}/${id}`);

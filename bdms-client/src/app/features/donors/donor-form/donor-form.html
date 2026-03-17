@@ -1,45 +1,64 @@
-<h2>Create Donor</h2>
+<div class="container mt-5 d-flex justify-content-center">
 
-<form [formGroup]="data" (ngSubmit)="submit()">
+  <div class="card shadow-lg p-4" style="width: 500px; border-radius: 12px;">
 
-  <div>
-    <label>Name:</label>
-    <input formControlName="name" />
-    </div>
+    <h3 class="text-center mb-4 text-primary">Create Donor</h3>
 
-  <div>
-    <label>Email:</label>
-    <input type="email" formControlName="email" />
+    <form [formGroup]="data" (ngSubmit)="submit()">
+
+      <!-- Name -->
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input class="form-control" formControlName="name" placeholder="Enter name" />
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" formControlName="email" placeholder="Enter email" />
+      </div>
+
+      <!-- Phone -->
+      <div class="mb-3">
+        <label class="form-label">Phone</label>
+        <input class="form-control" formControlName="phone" placeholder="Enter phone" />
+      </div>
+
+      <!-- Blood Group -->
+      <div class="mb-3">
+        <label class="form-label">Blood Group</label>
+        <select class="form-select" formControlName="bloodGroup">
+          <option [ngValue]="0">A+</option>
+          <option [ngValue]="1">A-</option>
+          <option [ngValue]="2">B+</option>
+          <option [ngValue]="3">B-</option>
+          <option [ngValue]="4">AB+</option>
+          <option [ngValue]="5">AB-</option>
+          <option [ngValue]="6">O+</option>
+          <option [ngValue]="7">O-</option>
+        </select>
+      </div>
+
+      <!-- Age -->
+      <div class="mb-3">
+        <label class="form-label">Age</label>
+        <input type="number" class="form-control" formControlName="age" placeholder="Enter age" />
+      </div>
+
+      <!-- Address -->
+      <div class="mb-3">
+        <label class="form-label">Address</label>
+        <textarea class="form-control" formControlName="address" rows="2" placeholder="Enter address"></textarea>
+      </div>
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-between mt-4">
+        <button class="btn btn-secondary" routerLink="/donors">Cancel</button>
+        <button class="btn btn-primary px-4" type="submit">Save</button>
+      </div>
+
+    </form>
+
   </div>
 
-  <div>
-    <label>Phone:</label>
-    <input formControlName="phone" />
-  </div>
-
-  <div>
-    <label>BloodGroup:</label>
-    <select formControlName="bloodGroup">
-    <option [ngValue]="0">A+</option>
-    <option [ngValue]="1">A-</option>
-    <option [ngValue]="2">B+</option>
-    <option [ngValue]="3">B-</option>
-    <option [ngValue]="4">AB+</option>
-    <option [ngValue]="5">AB-</option>
-    <option [ngValue]="6">O+</option>
-    <option [ngValue]="7">O-</option>
-      </select>
-  </div>
-
-  <div>
-    <label>Age:</label>
-    <input type="number" formControlName="age" />
-  </div>
-
-  <div>
-    <label>Address</label>
-    <input formControlName="address" />
-  </div>
-
-  <button type="submit">Save</button>
-</form>
+</div>

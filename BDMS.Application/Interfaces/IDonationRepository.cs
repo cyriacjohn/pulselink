@@ -19,5 +19,6 @@ namespace BDMS.Application.Interfaces
         Task<byte[]> GenerateCertificateAsync(int donationId);
         Task<Dictionary<string, int>> GetBloodGroupStatsAsync();
         Task<Dictionary<string, int>> GetBloodGroupStatsByUserAsync(int id);
+        Task<List<Donation>> GetByDonorAsync(int donorId);
     }
 }

@@ -23,12 +23,16 @@ export class DonationService {
     return this.http.post(`${environment.apiUrl}/donation/${donorId}/reject`, {});
   }
 
-  getAll(status?: number | null) {
+  getAll(status?: number | null, donorId?: number | null) {
+    let params: any = {};
     let url = `${environment.apiUrl}/donation`;
     if (status !== null) {
-      url += `?status=${status}`;
+      params.status = status;
     }
-    return this.http.get<any[]>(url);
+    if (donorId) {
+      params.donorId = donorId;
+    }
+    return this.http.get<any[]>(url, { params });
   }
 
   donateUser(hospitalId: number) {
@@ -37,6 +41,10 @@ export class DonationService {
 
   downloadCertificate(id: number) {
     return this.http.get(`${environment.apiUrl}/donation/${id}/certificate`, { responseType: 'blob'});
+  }
+
+  getByDonor(id: number) {
+    return this.http.get(`${environment.apiUrl}/donation/by-donor/${id}`);
   }
 }
 

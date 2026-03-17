@@ -26,7 +26,12 @@ export class Login {
           this.authService.saveToken(res.token);
           localStorage.setItem("donorId", res.donorId);
           setTimeout(() => {
-            this.router.navigate(['/dashboard']);
+            if (this.authService.isAdmin()) {
+              this.router.navigate(['/dashboard']);
+            }
+            else {
+              this.router.navigate(['/user-dashboard']);
+            }
           });
         },
         error: (err:any) => {

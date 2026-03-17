@@ -1,62 +1,70 @@
-<h3>Latest Blood Donation News</h3>
+<div class="container mt-3">
+  <h3>Latest Blood Donation News</h3>
 
-<div class="ticker">
-  <div class="ticker-content">
-    <div *ngFor="let item of news" class="ticker-item">
-      {{item.title}} &nbsp;&nbsp; • &nbsp;&nbsp;
-    </div>
-  </div>
-</div>
-
-<canvas id="donationChart"></canvas>
-
-<div class="row">
-  <div class="col-md-3">
-    <div class="card bg-primary text-white">
-      <div class="card-body">
-        <h6>Total Donations</h6>
-        <h2>{{stats?.totalDonations}}</h2>
+  <div class="ticker">
+    <div class="ticker-content">
+      <div *ngFor="let item of news" class="ticker-item">
+        {{item.title}} &nbsp;&nbsp; • &nbsp;&nbsp;
       </div>
     </div>
   </div>
 
-  <div class="col-md-3">
-    <div class="card bg-warning text-white">
-      <div class="card-body">
-        <h6>Pending Donations</h6>
-        <h2>{{stats?.pendingDonations}}</h2>
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="chart-container">
+        <canvas id="donationChart"></canvas>
       </div>
     </div>
   </div>
 
-  <div class="col-md-3">
-    <div class="card bg-success text-white">
-      <div class="card-body">
-        <h6>Completed Donations</h6>
-        <h2>{{stats?.completedDonations}}</h2>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <h6>Total Donations</h6>
+          <h2>{{stats?.totalDonations}}</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card bg-warning text-white">
+        <div class="card-body">
+          <h6>Pending Donations</h6>
+          <h2>{{stats?.pendingDonations}}</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <h6>Completed Donations</h6>
+          <h2>{{stats?.completedDonations}}</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card bg-danger text-white">
+        <div class="card-body">
+          <h6>Rejected Donations</h6>
+          <h2>{{stats?.rejectedDonations}}</h2>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="col-md-3">
-    <div class="card bg-danger text-white">
-      <div class="card-body">
-        <h6>Rejected Donations</h6>
-        <h2>{{stats?.rejectedDonations}}</h2>
-      </div>
-      </div>
-    </div>
-    </div>
-
-<div class="row mt-3">
-  <div class="col-md-3">
-    <div class="card bg-danger text-white">
-      <div class="card-body">
-        <h6>Total Units Available</h6>
-        <h2>{{stats?.totalUnits}}</h2>
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <div class="card bg-danger text-white">
+        <div class="card-body">
+          <h6>Total Units Available</h6>
+          <h2>{{stats?.totalUnits}}</h2>
+        </div>
       </div>
     </div>
-    </div>
+  </div>
   </div>
 
 

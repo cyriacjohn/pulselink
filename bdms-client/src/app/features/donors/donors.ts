@@ -103,5 +103,11 @@ export class Donors implements OnInit {
       default: return '';
     }
   }
+
+  viewDonations(donorId: number) {
+    this.router.navigate(['/donations'], {
+      queryParams: { donorId }
+    })
+  }
 }
 

@@ -16,4 +16,8 @@ export class DashboardService {
   getBloodGroupStats() {
     return this.http.get(`${environment.apiUrl}/donation/stats/bloodgroups`);
   }
+
+  getMyDonationStats() {
+    return this.http.get(`${environment.apiUrl}/donation/stats/my`); 
+  }
 }

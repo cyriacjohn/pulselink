@@ -55,6 +55,10 @@ export class Dashboard {
             data: values,
             backgroundColor: ["red", "blue", "green", "purple"]
           }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
         }
       })
     })

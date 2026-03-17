@@ -85,5 +85,12 @@ namespace BDMS.Infrastructure.Repositories
                                              .Select(g => new { Status = g.Key, Count = g.Count() })
                                              .ToDictionaryAsync(x => Convert.ToString(x.Status), x => x.Count);
         }
+
+        public async Task<List<Donation>> GetByDonorAsync(int donorId)
+        {
+            return await _dbContext.Donations.Where(d => d.DonorId == donorId)
+                                                     .Include(d => d.Hospital)
+                                                     .ToListAsync();
+        }
     }
 }

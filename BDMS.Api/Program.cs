@@ -11,6 +11,8 @@ using BDMS.Infrastructure.Services;
 using StackExchange.Redis;
 using BDMS.Infrastructure.RealTime;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Identity;
+using System.Net.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -136,6 +138,11 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHub<NotificationHub>("/api/notifications");
 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+using(var scope = app.Services.CreateScope())
+    {
+    var dbContext = scope.ServiceProvider.GetRequiredService<BDMSDbContext>();
+    dbContext.Database.Migrate();
+}
 app.Run();
 
 

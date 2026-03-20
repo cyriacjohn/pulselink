@@ -48,7 +48,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddDbContext<BDMSDbContext>(options =>
-options.UseSqlServer(
+options.UseSqlite(
     builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );

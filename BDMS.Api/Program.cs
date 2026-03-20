@@ -141,6 +141,7 @@ QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 using(var scope = app.Services.CreateScope())
     {
     var dbContext = scope.ServiceProvider.GetRequiredService<BDMSDbContext>();
+    dbContext.Database.EnsureCreated();
     dbContext.Database.Migrate();
 }
 app.Run();

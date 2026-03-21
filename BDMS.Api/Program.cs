@@ -111,16 +111,10 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
-        }
-        );
     options.AddPolicy("AllowFrontend", policy
         =>
     {
-        policy.WithOrigins("https://pulse-link.netlify.app/register").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+        policy.WithOrigins("https://pulse-link.netlify.app").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     }
         );
 });
@@ -152,7 +146,6 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-app.UseCors("AllowAngular");
 app.UseCors("AllowFrontend");
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();

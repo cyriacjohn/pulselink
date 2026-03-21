@@ -119,7 +119,11 @@ var app = builder.Build();
 using(var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BDMSDbContext>();
-    await DataSeeder.SeedAdminAsync(context);
+    Console.WriteLine("Forcing DB Creation");
+    context.Database.EnsureDeleted();
+    context.Database.EnsureCreated();
+    Console.WriteLine("DB Created");
+    //await DataSeeder.SeedAdminAsync(context);
 }
 
 // Configure the HTTP request pipeline.
@@ -138,12 +142,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHub<NotificationHub>("/api/notifications");
 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
-using(var scope = app.Services.CreateScope())
-    {
-    var dbContext = scope.ServiceProvider.GetRequiredService<BDMSDbContext>();
-    dbContext.Database.EnsureCreated();
-    dbContext.Database.Migrate();
-}
 app.Run();
 
 

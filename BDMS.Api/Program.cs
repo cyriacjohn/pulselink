@@ -1,18 +1,21 @@
-using BDMS.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+using BDMS.Api;
 using BDMS.Application.Interfaces;
 using BDMS.Application.Services;
-using BDMS.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using BDMS.Api;
-using BDMS.Infrastructure.Services;
-using StackExchange.Redis;
+using BDMS.Infrastructure.Data;
 using BDMS.Infrastructure.RealTime;
-using Microsoft.AspNetCore.SignalR;
+using BDMS.Infrastructure.Repositories;
+using BDMS.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
+using System.Data;
 using System.Net.WebSockets;
+using System.Text;
+using static QuestPDF.Helpers.Colors;
+using BDMS.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -114,15 +117,30 @@ builder.Services.AddCors(options =>
             policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
         }
         );
+    options.AddPolicy("AllowFrontend", policy
+        =>
+    {
+        policy.WithOrigins("https://pulse-link.netlify.app/register").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+    }
+        );
 });
 var app = builder.Build();
 using(var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BDMSDbContext>();
-    Console.WriteLine("Forcing DB Creation");
-    context.Database.EnsureDeleted();
-    context.Database.EnsureCreated();
-    Console.WriteLine("DB Created");
+    context.Database.Migrate();
+    if (!context.Users.Any(u => u.Role == "Admin"))
+    {
+        context.Users.Add(new User
+        {
+            UserName = "admin",
+            Email = "admin@test.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+            Role = "Admin"
+        }
+            );
+        context.SaveChanges();
+    }
     //await DataSeeder.SeedAdminAsync(context);
 }
 
@@ -135,6 +153,7 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 app.UseCors("AllowAngular");
+app.UseCors("AllowFrontend");
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();

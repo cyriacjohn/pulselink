@@ -23,9 +23,9 @@ export const routes: Routes = [
       {
         path: 'donors/create', component: DonorForm
       },
-      {
-        path: 'donors/edit/:id', component: DonorForm
-      },
+      //{
+      //  path: 'donors/edit/:id', component: DonorForm
+      //},
       {
         path: 'thank-you', component: ThankYou
       },

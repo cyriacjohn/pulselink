@@ -9,13 +9,13 @@ namespace BDMS.Domain.Entities
 {
     public class User
     {
-        public int Id { get; private set; }
-        public string UserName { get; private set; }
-        public string PasswordHash { get; private set; }
-        public string Email { get; private set; }
-        public string Role { get; private set; }
+        public int Id { get; set; }
+        public string UserName { get; set; }
+        public string PasswordHash { get; set; }
+        public string Email { get; set; }
+        public string Role { get; set; }
 
-        private User() { }
+        public User() { }
             public User(string username, string passwordHash, string email, string role)
         {
             UserName = username;

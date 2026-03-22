@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using BDMS.Application.DTOs;
 using System.Text.Json;
 using BDMS.Application.Interfaces;
+using Azure.Core;
+using Microsoft.AspNetCore.Http;
 
 namespace BDMS.Infrastructure.Services
 {
@@ -51,23 +53,30 @@ namespace BDMS.Infrastructure.Services
 
         public async Task<IEnumerable<Hospital>> GetAllAsync()
         {
-            var cacheKey = "hospitals";
-            var cachedData = await _cache.GetAsync(cacheKey);
-            if (cachedData != null)
+            try
             {
-                return JsonSerializer.Deserialize<List<Hospital>>(cachedData);
+                var cacheKey = "hospitals";
+                var cachedData = await _cache.GetAsync(cacheKey);
+                if (cachedData != null)
+                {
+                    return JsonSerializer.Deserialize<List<Hospital>>(cachedData);
+                }
+                var hospitals = await _dbContext.Hospitals.ToListAsync();
+                var result = hospitals.Select(h => new Hospital
+                {
+                    Id = h.Id,
+                    Name = h.Name,
+                    City = h.City,
+                    Address = h.Address,
+                    ContactPhone = h.ContactPhone
+                }).ToList();
+                await _cache.SetAsync(cacheKey, JsonSerializer.Serialize(result), TimeSpan.FromMinutes(10));
+                return result;
             }
-            var hospitals = await _dbContext.Hospitals.ToListAsync();
-            var result = hospitals.Select(h => new Hospital
+            catch (Exception ex)
             {
-                Id = h.Id,
-                Name = h.Name,
-                City = h.City,
-                Address = h.Address,
-                ContactPhone = h.ContactPhone
-            }).ToList();
-            await _cache.SetAsync(cacheKey, JsonSerializer.Serialize(result), TimeSpan.FromMinutes(10));
-            return result;
+                Console.WriteLine("ERROR:" + ex.ToString());
+            }
         }
     }
 }

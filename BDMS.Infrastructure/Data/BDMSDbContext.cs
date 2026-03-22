@@ -55,15 +55,6 @@ namespace BDMS.Infrastructure.Data
             modelBuilder.Entity<BloodInventory>()
                 .HasIndex(i => new { i.HospitalId, i.BloodGroup }).IsUnique();
 
-            modelBuilder.Entity<Hospital>().HasData(
-    new Hospital { Id = 1, Name = "Aster Medcity", City = "Kochi", Address = "Cheranallur, Kochi", ContactPhone = "0484-6699999" },
-    new Hospital { Id = 2, Name = "Rajagiri Hospital", City = "Aluva", Address = "Rajagiri Valley Rd, Aluva", ContactPhone = "0484-2700600" },
-    new Hospital { Id = 3, Name = "Amrita Institute of Medical Sciences", City = "Kochi", Address = "Ponekkara, Kochi", ContactPhone = "0484-2802000" },
-    new Hospital { Id = 4, Name = "Lisie Hospital", City = "Kochi", Address = "Pettah, Kochi", ContactPhone = "0484-2662222" },
-    new Hospital { Id = 5, Name = "Medical Trust Hospital", City = "Kochi", Address = "MG Road, Kochi", ContactPhone = "0484-2361400" }
-);
-
-
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email).IsUnique();
             modelBuilder.Entity<User>()

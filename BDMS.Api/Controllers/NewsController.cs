@@ -18,7 +18,7 @@ namespace BDMS.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetNews()
         {
-            var apiKey = _config["NewsApiKey"];
+            var apiKey = _config["NewsApiKey:ApiKey"];
             if (string.IsNullOrEmpty(apiKey))
             {
                 return BadRequest("API Key not found");

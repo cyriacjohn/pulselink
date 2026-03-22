@@ -7,6 +7,7 @@ using System.Text.Json;
 using BDMS.Application.Interfaces;
 using Azure.Core;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace BDMS.Infrastructure.Services
 {
@@ -53,14 +54,15 @@ namespace BDMS.Infrastructure.Services
 
         public async Task<IEnumerable<Hospital>> GetAllAsync()
         {
+            var cacheKey = "hospitals";
             try
             {
-                var cacheKey = "hospitals";
                 var cachedData = await _cache.GetAsync(cacheKey);
-                if (cachedData != null)
+                if (!string.IsNullOrEmpty(cachedData))
                 {
-                    return JsonSerializer.Deserialize<List<Hospital>>(cachedData);
+                    return JsonSerializer.Deserialize<List<Hospital>>(cachedData) ?? Enumerable.Empty<Hospital>();
                 }
+
                 var hospitals = await _dbContext.Hospitals.ToListAsync();
                 var result = hospitals.Select(h => new Hospital
                 {
@@ -70,12 +72,14 @@ namespace BDMS.Infrastructure.Services
                     Address = h.Address,
                     ContactPhone = h.ContactPhone
                 }).ToList();
+
                 await _cache.SetAsync(cacheKey, JsonSerializer.Serialize(result), TimeSpan.FromMinutes(10));
                 return result;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR:" + ex.ToString());
+                Console.WriteLine("ERROR: " + ex);
+                throw;
             }
         }
     }

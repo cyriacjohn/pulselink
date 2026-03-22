@@ -10,7 +10,6 @@ namespace BDMS.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin, User")]
     public class HospitalsController : ControllerBase
     {
         private readonly HospitalService _service;
@@ -21,6 +20,7 @@ namespace BDMS.Api.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var hospitals = await _service.GetAllAsync();

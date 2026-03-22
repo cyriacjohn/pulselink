@@ -1,106 +1,158 @@
-PulseLink — Distributed Blood Donation Management System
+# PulseLink — Distributed Blood Donation Management System
 
-PulseLink is a full-stack blood donation management system I designed and built by re-architecting an earlier PHP-based college project into a production-ready system using modern backend practices.
+![Status](https://img.shields.io/badge/Status-Live-success)
+![.NET](https://img.shields.io/badge/.NET-8.0-purple)
+![Angular](https://img.shields.io/badge/Angular-17-red)
+![SQLite](https://img.shields.io/badge/Database-SQLite-blue)
+![Redis](https://img.shields.io/badge/Cache-Redis-orange)
+![SignalR](https://img.shields.io/badge/Realtime-SignalR-green)
 
-The focus of this project was not just feature development, but building a system that is structured, scalable, and deployable — with clear separation of concerns, real-time capabilities, and real production debugging experience.
+---
 
-🌐 Live System
-🔗 Frontend: https://pulse-link.netlify.app⁠�
-🔗 Backend API: https://pulselink-v6cr.onrender.com⁠�
+PulseLink is a full-stack blood donation management system I built by re-architecting an earlier PHP college project into a **production-ready system** using modern backend practices.
 
-This project originated from a basic PHP CRUD application I built during college.
-Instead of incrementally improving that version, I chose to rebuild the system from scratch using ASP.NET Core and Angular.
-This allowed me to:
-Introduce proper architectural boundaries
-Implement authentication and role-based access
-Add real-time communication and caching layers
-Understand deployment and runtime behavior in production
-The result is a system that reflects engineering decisions, not just implementation.
+This project focuses on **system design, scalability, and real-world deployment**, not just feature development.
 
-Architecture
-The system follows a layered architecture inspired by clean architecture principles.
-🔹 API Layer (BDMS.Api)
-Entry point of the system
-Handles routing, middleware, and authentication
-Responsible for request orchestration
-🔹 Application Layer (BDMS.Application)
-Contains business logic and use cases
-Services:
-AuthService
-DonationService
-DonorService
-DashboardService
-🔹 Domain Layer (BDMS.Domain)
-Core entities:
-User
-Donor
-Donation
-🔹 Infrastructure Layer (BDMS.Infrastructure)
-Entity Framework Core
-Repository implementations
-Redis caching
-SignalR
-QuestPDF
-🔄 Request Flow
+---
 
-Client → API Controller → Application Service → Repository → Database
-                                 ↘ Redis Cache
-                                 ↘ SignalR
-⚙️ Core Capabilities
-🔐 Authentication
-JWT authentication
-Role-based access
-BCrypt hashing
-🩸 Donation Workflow
-Initiation → Approval → Completion
-Admin validation
-⚡ Real-Time (SignalR)
-Live updates
-🧠 Redis Caching
-Reduced DB calls
-📄 PDF Generation
-Certificates using QuestPDF
-🛠 Tech Stack
-Backend
-ASP.NET Core
-EF Core
-Redis
-SignalR
-Frontend
-Angular
-TypeScript
-Bootstrap
-Database
-SQL Server (dev)
-SQLite (prod)
-Deployment
-Render (backend)
-Netlify (frontend)
+## Live System
 
-⚙️ Local Setup
-Clone
-Bash
+- **Frontend:** https://pulse-link.netlify.app  
+- **Backend API:** https://pulselink-v6cr.onrender.com  
+
+---
+
+## Architecture
+
+### API Layer (`BDMS.Api`)
+- Routing, middleware, authentication  
+
+### Application Layer (`BDMS.Application`)
+- Business logic  
+- Services:
+  - AuthService  
+  - DonationService  
+  - DonorService  
+
+### Domain Layer (`BDMS.Domain`)
+- Core entities:
+  - User  
+  - Donor  
+  - Donation  
+
+### Infrastructure Layer (`BDMS.Infrastructure`)
+- EF Core  
+- Repositories  
+- Redis  
+- SignalR  
+- QuestPDF  
+
+---
+
+## System Flow
+
+```
+Client (Angular)
+        ↓
+ASP.NET Core API
+        ↓
+Application Services
+        ↓
+Repositories
+        ↓
+SQLite Database
+        ↓
+Redis (optional)
+        ↓
+SignalR (real-time)
+```
+
+---
+
+## Core Features
+
+### Authentication
+- JWT-based login  
+- Role-based access  
+- BCrypt password hashing  
+
+### Donation Workflow
+- Request → Approval → Completion  
+- Admin-controlled validation  
+
+### Real-Time
+- SignalR integration  
+
+### Caching
+- Redis abstraction layer  
+
+### PDF Generation
+- Donation certificates  
+
+---
+
+## Tech Stack
+
+**Backend**
+- ASP.NET Core  
+- Entity Framework Core  
+- Redis  
+- SignalR  
+
+**Frontend**
+- Angular  
+- TypeScript  
+- Bootstrap  
+
+**Database**
+- SQL Server (dev)  
+- SQLite (prod)  
+
+**Deployment**
+- Render (backend)  
+- Netlify (frontend)  
+
+---
+
+## ⚙️ Local Setup
+
+### Clone
+
+```bash
 git clone https://github.com/your-username/pulselink.git
 cd pulselink
+```
 
-Backend
-Bash
+### Backend
+
+```bash
 cd BDMS.Api
 dotnet restore
 dotnet run
+```
 
-Frontend
-Bash
+### Frontend
+
+```bash
 cd bdms-client
 npm install
 ng serve
+```
 
-🔑 Default Admin
-Email: admin@test.com
-Password: Admin@123
+---
 
-🚀 Future Work
-Smart donor matching
-Email notifications
-Advanced analytics
-PostgreSQL migration
+## Default Admin
+
+- Email: admin@test.com  
+- Password: Admin@123  
+
+---
+
+## Future Work
+
+- Smart donor matching  
+- Email notifications  
+- Advanced analytics  
+- PostgreSQL migration  
+
+---

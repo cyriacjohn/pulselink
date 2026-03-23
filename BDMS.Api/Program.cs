@@ -122,9 +122,9 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BDMSDbContext>();
-    context.Database.EnsureDeleted();
-    context.Database.EnsureCreated();
     //context.Database.Migrate();
+    context.Database.EnsureCreated();
+    context.Database.EnsureDeleted();
     if (!context.Users.Any(u => u.Role == "Admin"))
     {
         context.Users.Add(new User
@@ -141,11 +141,11 @@ using (var scope = app.Services.CreateScope())
     if (!context.Hospitals.Any())
     {
         context.Hospitals.AddRange(
-    new Hospital { Id = 1, Name = "Aster Medcity", City = "Kochi", Address = "Cheranallur, Kochi", ContactPhone = "0484-6699999" },
-    new Hospital { Id = 2, Name = "Rajagiri Hospital", City = "Aluva", Address = "Rajagiri Valley Rd, Aluva", ContactPhone = "0484-2700600" },
-    new Hospital { Id = 3, Name = "Amrita Institute of Medical Sciences", City = "Kochi", Address = "Ponekkara, Kochi", ContactPhone = "0484-2802000" },
-    new Hospital { Id = 4, Name = "Lisie Hospital", City = "Kochi", Address = "Pettah, Kochi", ContactPhone = "0484-2662222" },
-    new Hospital { Id = 5, Name = "Medical Trust Hospital", City = "Kochi", Address = "MG Road, Kochi", ContactPhone = "0484-2361400" }
+    new Hospital { Name = "Aster Medcity", City = "Kochi", Address = "Cheranallur, Kochi", ContactPhone = "0484-6699999" },
+    new Hospital { Name = "Rajagiri Hospital", City = "Aluva", Address = "Rajagiri Valley Rd, Aluva", ContactPhone = "0484-2700600" },
+    new Hospital { Name = "Amrita Institute of Medical Sciences", City = "Kochi", Address = "Ponekkara, Kochi", ContactPhone = "0484-2802000" },
+    new Hospital { Name = "Lisie Hospital", City = "Kochi", Address = "Pettah, Kochi", ContactPhone = "0484-2662222" },
+    new Hospital { Name = "Medical Trust Hospital", City = "Kochi", Address = "MG Road, Kochi", ContactPhone = "0484-2361400" }
             );
     }
     context.SaveChanges();

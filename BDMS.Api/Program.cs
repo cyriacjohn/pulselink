@@ -123,8 +123,8 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BDMSDbContext>();
     //context.Database.Migrate();
-    context.Database.EnsureCreated();
     context.Database.EnsureDeleted();
+    context.Database.EnsureCreated();
     if (!context.Users.Any(u => u.Role == "Admin"))
     {
         context.Users.Add(new User

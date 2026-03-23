@@ -68,7 +68,8 @@ builder.Services.AddScoped<CertificateGenerator>();
 builder.Services.AddScoped<HospitalService>();
 builder.Services.AddScoped<IBloodInventoryRepository, BloodInventoryRepository>();
 builder.Services.AddScoped<DashboardService>();
-//builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
+var redisConnection = builder.Configuration["Redis:Connection"];
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
 builder.Services.AddScoped<ICacheService, RedisCacheService>();
 builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
 builder.Services.AddSignalR();
@@ -122,9 +123,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BDMSDbContext>();
-    //context.Database.Migrate();
-    context.Database.EnsureDeleted();
-    context.Database.EnsureCreated();
+    context.Database.Migrate();
     if (!context.Users.Any(u => u.Role == "Admin"))
     {
         context.Users.Add(new User

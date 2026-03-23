@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BDMS.Infrastructure.Migrations
 {
     [DbContext(typeof(BDMSDbContext))]
-    [Migration("20260322020456_InitialClean")]
-    partial class InitialClean
+    [Migration("20260323151539_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

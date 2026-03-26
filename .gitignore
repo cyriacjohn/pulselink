@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/BDMS.Infrastructure/bdms.db
+/BDMS.Infrastructure/bdms.db-shm
+/BDMS.Infrastructure/bdms.db-wal
+/BDMS.Api/bdms.db
+/bdms-client/package-lock.json
+/bdms-client/package.json

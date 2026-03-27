@@ -18,6 +18,8 @@ namespace BDMS.Domain.Entities
         public string Address { get; set; }
         public DateTime? LastDonatedDate { get; set; }
         public DateTime CreatedDate { get; set; } 
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
         private Donor() { } // Required for EF
         public Donor(string name, string email, string phone, BloodGroup bloodGroup, int age, string address)

@@ -18,6 +18,7 @@ namespace BDMS.Infrastructure.Data
         public DbSet<Donation> Donations => Set<Donation>();
         public DbSet<BloodInventory> BloodInventory => Set<BloodInventory>();
         public DbSet<Notification> Notifications => Set<Notification>();
+        public DbSet<BloodRequest> BloodRequests => Set<BloodRequest>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -52,6 +53,12 @@ namespace BDMS.Infrastructure.Data
                   .HasForeignKey(d => d.HospitalId)
                   .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<BloodRequest>()
+                .HasOne(br => br.Hospital)
+                .WithMany()
+                .HasForeignKey(br => br.HospitalId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<BloodInventory>()
                 .HasIndex(i => new { i.HospitalId, i.BloodGroup }).IsUnique();
 
@@ -60,7 +67,6 @@ namespace BDMS.Infrastructure.Data
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.UserName).IsUnique();
 
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

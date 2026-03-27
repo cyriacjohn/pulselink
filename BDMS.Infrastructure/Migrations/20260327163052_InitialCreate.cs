@@ -24,7 +24,9 @@ namespace BDMS.Infrastructure.Migrations
                     Age = table.Column<int>(type: "INTEGER", nullable: false),
                     Address = table.Column<string>(type: "TEXT", nullable: false),
                     LastDonatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Latitude = table.Column<double>(type: "REAL", nullable: false),
+                    Longitude = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,7 +42,9 @@ namespace BDMS.Infrastructure.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     City = table.Column<string>(type: "TEXT", nullable: false),
                     Address = table.Column<string>(type: "TEXT", nullable: false),
-                    ContactPhone = table.Column<string>(type: "TEXT", nullable: false)
+                    ContactPhone = table.Column<string>(type: "TEXT", nullable: false),
+                    Latitude = table.Column<double>(type: "REAL", nullable: false),
+                    Longitude = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,6 +106,30 @@ namespace BDMS.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BloodRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    bloodGroup = table.Column<int>(type: "INTEGER", nullable: false),
+                    UnitsRequired = table.Column<int>(type: "INTEGER", nullable: false),
+                    HospitalId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RequestedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsFulfilled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Priority = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BloodRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BloodRequests_Hospitals_HospitalId",
+                        column: x => x.HospitalId,
+                        principalTable: "Hospitals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Donations",
                 columns: table => new
                 {
@@ -137,6 +165,11 @@ namespace BDMS.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_BloodRequests_HospitalId",
+                table: "BloodRequests",
+                column: "HospitalId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Donations_DonorId",
                 table: "Donations",
                 column: "DonorId");
@@ -164,6 +197,9 @@ namespace BDMS.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "BloodInventory");
+
+            migrationBuilder.DropTable(
+                name: "BloodRequests");
 
             migrationBuilder.DropTable(
                 name: "Donations");

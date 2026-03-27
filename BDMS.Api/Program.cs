@@ -68,11 +68,14 @@ builder.Services.AddScoped<CertificateGenerator>();
 builder.Services.AddScoped<HospitalService>();
 builder.Services.AddScoped<IBloodInventoryRepository, BloodInventoryRepository>();
 builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<SmartMatchingService>();
+builder.Services.AddScoped<IBloodRequestRepository, BloodRequestRepository>();
 var redisConnection = builder.Configuration["Redis:Connection"];
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
 builder.Services.AddScoped<ICacheService, RedisCacheService>();
 builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
 builder.Services.AddSignalR();
+builder.Services.AddScoped<IGoogleMapsService, GoogleMapsService>();
 
 var keyString = builder.Configuration["Jwt:Key"];
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
@@ -115,7 +118,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy
         =>
     {
-        policy.WithOrigins("https://pulse-link.netlify.app").AllowAnyHeader().AllowAnyMethod().AllowCredentials();     
+        policy.WithOrigins("https://pulse-link.netlify.app").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+    }
         );
 });
 var app = builder.Build();
@@ -139,11 +143,11 @@ using (var scope = app.Services.CreateScope())
     if (!context.Hospitals.Any())
     {
         context.Hospitals.AddRange(
-    new Hospital { Name = "Aster Medcity", City = "Kochi", Address = "Cheranallur, Kochi", ContactPhone = "0484-6699999" },
-    new Hospital { Name = "Rajagiri Hospital", City = "Aluva", Address = "Rajagiri Valley Rd, Aluva", ContactPhone = "0484-2700600" },
-    new Hospital { Name = "Amrita Institute of Medical Sciences", City = "Kochi", Address = "Ponekkara, Kochi", ContactPhone = "0484-2802000" },
-    new Hospital { Name = "Lisie Hospital", City = "Kochi", Address = "Pettah, Kochi", ContactPhone = "0484-2662222" },
-    new Hospital { Name = "Medical Trust Hospital", City = "Kochi", Address = "MG Road, Kochi", ContactPhone = "0484-2361400" }
+    new Hospital { Name = "Aster Medcity", City = "Kochi", Address = "Cheranallur, Kochi", ContactPhone = "0484-6699999", Latitude = 10.0510, Longitude = 76.2740},
+    new Hospital { Name = "Rajagiri Hospital", City = "Aluva", Address = "Rajagiri Valley Rd, Aluva", ContactPhone = "0484-2700600", Latitude = 10.0880, Longitude = 76.3510 },
+    new Hospital { Name = "Amrita Institute of Medical Sciences", City = "Kochi", Address = "Ponekkara, Kochi", ContactPhone = "0484-2802000", Latitude = 10.0380, Longitude = 76.2960 },
+    new Hospital { Name = "Lisie Hospital", City = "Kochi", Address = "Pettah, Kochi", ContactPhone = "0484-2662222", Latitude = 9.9816, Longitude = 76.2800 },
+    new Hospital { Name = "Medical Trust Hospital", City = "Kochi", Address = "MG Road, Kochi", ContactPhone = "0484-2361400", Latitude = 9.9967, Longitude = 76.2790 }
             );
     }
     context.SaveChanges();

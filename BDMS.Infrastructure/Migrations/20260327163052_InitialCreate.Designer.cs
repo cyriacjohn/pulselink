@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BDMS.Infrastructure.Migrations
 {
     [DbContext(typeof(BDMSDbContext))]
-    [Migration("20260323151539_InitialCreate")]
+    [Migration("20260327163052_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -44,6 +44,37 @@ namespace BDMS.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("BloodInventory");
+                });
+
+            modelBuilder.Entity("BDMS.Domain.Entities.BloodRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HospitalId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsFulfilled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("RequestedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UnitsRequired")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("bloodGroup")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HospitalId");
+
+                    b.ToTable("BloodRequests");
                 });
 
             modelBuilder.Entity("BDMS.Domain.Entities.Donation", b =>
@@ -104,6 +135,12 @@ namespace BDMS.Infrastructure.Migrations
                     b.Property<DateTime?>("LastDonatedDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("Latitude")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -136,6 +173,12 @@ namespace BDMS.Infrastructure.Migrations
                     b.Property<string>("ContactPhone")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -209,6 +252,17 @@ namespace BDMS.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("HospitalId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hospital");
+                });
+
+            modelBuilder.Entity("BDMS.Domain.Entities.BloodRequest", b =>
+                {
+                    b.HasOne("BDMS.Domain.Entities.Hospital", "Hospital")
+                        .WithMany()
+                        .HasForeignKey("HospitalId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Hospital");

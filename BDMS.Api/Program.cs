@@ -118,7 +118,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy
         =>
     {
-        policy.WithOrigins("https://pulse-link.netlify.app").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     }
         );
 });

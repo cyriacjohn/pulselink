@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NotificationService } from './core/services/notification.service';
+import { SmartMatch } from '../app/features/smartmatch/smartmatch';
 
 @Component({
   selector: 'app-root',

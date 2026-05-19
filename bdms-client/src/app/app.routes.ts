@@ -12,7 +12,7 @@ import { Register } from './features/auth/register/register';
 import { Donate } from './donations/donate/donate';
 import { MyDonations } from './features/donations/my-donations/my-donations';
 import { UserDashboard } from './features/user-dashboard/user-dashboard';
-
+import { SmartMatch } from './features/smartmatch/smartmatch'; 
 
 export const routes: Routes = [
   {
@@ -43,6 +43,9 @@ export const routes: Routes = [
       },
       {
         path: 'user-dashboard', component: UserDashboard
+      },
+      {
+        path: 'smartmatch/:id', component: SmartMatch
       }
     ]
   },

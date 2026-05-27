@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BDMS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -13,10 +14,12 @@ namespace BDMS.Domain.Entities
         public string UserName { get; set; }
         public string PasswordHash { get; set; }
         public string Email { get; set; }
-        public string Role { get; set; }
+        public Role Role { get; set; }
+        public int? HospitalId { get; set; }
+        public Hospital? Hospital { get; set; }
 
         public User() { }
-            public User(string username, string passwordHash, string email, string role)
+            public User(string username, string passwordHash, string email, Role role)
         {
             UserName = username;
             PasswordHash = passwordHash;
@@ -24,9 +27,9 @@ namespace BDMS.Domain.Entities
             Role = role;
         }
 
-        public  void UpdateRole(string newRole)
+        public  void UpdateRole(Role newRole)
         {
-            if(newRole != "Admin" && newRole != "User")
+            if(newRole != Role.Admin && newRole != Role.User)
             {
                 throw new ArgumentException("Invalid role specified.");
             }

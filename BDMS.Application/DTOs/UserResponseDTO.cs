@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BDMS.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,6 @@ namespace BDMS.Application.DTOs
         public int Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
-        public string Role { get; set; }
+        public Role Role { get; set; }
     }
 }

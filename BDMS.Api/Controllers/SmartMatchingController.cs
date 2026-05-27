@@ -7,7 +7,7 @@ namespace BDMS.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class SmartMatchingController : ControllerBase
-    {
+    { 
         public readonly SmartMatchingService _service;
         public SmartMatchingController(SmartMatchingService service)
         {

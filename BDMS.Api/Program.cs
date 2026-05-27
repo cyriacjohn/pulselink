@@ -16,6 +16,7 @@ using System.Net.WebSockets;
 using System.Text;
 using static QuestPDF.Helpers.Colors;
 using BDMS.Domain.Entities;
+using BDMS.Domain.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -127,14 +128,14 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BDMSDbContext>();
     context.Database.Migrate();
-    if (!context.Users.Any(u => u.Role == "Admin"))
+    if (!context.Users.Any(u => u.Role == BDMS.Domain.Enums.Role.Admin))
     {
         context.Users.Add(new User
         {
             UserName = "admin",
             Email = "admin@test.com",
             PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
-            Role = "Admin"
+            Role = BDMS.Domain.Enums.Role.Admin
         }
             );
     }
@@ -143,18 +144,32 @@ using (var scope = app.Services.CreateScope())
     if (!context.Hospitals.Any())
     {
         context.Hospitals.AddRange(
-    new Hospital { Name = "Aster Medcity", City = "Kochi", Address = "Cheranallur, Kochi", ContactPhone = "0484-6699999", Latitude = 10.0510, Longitude = 76.2740},
+    new Hospital { Name = "Aster Medcity", City = "Kochi", Address = "Cheranallur, Kochi", ContactPhone = "0484-6699999", Latitude = 10.0510, Longitude = 76.2740 },
     new Hospital { Name = "Rajagiri Hospital", City = "Aluva", Address = "Rajagiri Valley Rd, Aluva", ContactPhone = "0484-2700600", Latitude = 10.0880, Longitude = 76.3510 },
     new Hospital { Name = "Amrita Institute of Medical Sciences", City = "Kochi", Address = "Ponekkara, Kochi", ContactPhone = "0484-2802000", Latitude = 10.0380, Longitude = 76.2960 },
     new Hospital { Name = "Lisie Hospital", City = "Kochi", Address = "Pettah, Kochi", ContactPhone = "0484-2662222", Latitude = 9.9816, Longitude = 76.2800 },
     new Hospital { Name = "Medical Trust Hospital", City = "Kochi", Address = "MG Road, Kochi", ContactPhone = "0484-2361400", Latitude = 9.9967, Longitude = 76.2790 }
             );
     }
+
+    if (!context.Users.Any(u => u.Role == BDMS.Domain.Enums.Role.Hospital))
+    {
+        context.Users.Add(new User
+            {
+                UserName = "astermedcity",
+                Email = "aste@gmail.com",
+                HospitalId = 1,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("Astermedcity2026#"),
+                Role = BDMS.Domain.Enums.Role.Hospital
+
+            }
+            );
+    }
     context.SaveChanges();
 }
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

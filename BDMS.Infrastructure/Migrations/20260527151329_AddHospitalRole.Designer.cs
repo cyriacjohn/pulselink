@@ -3,6 +3,7 @@ using System;
 using BDMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BDMS.Infrastructure.Migrations
 {
     [DbContext(typeof(BDMSDbContext))]
-    partial class BDMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260527151329_AddHospitalRole")]
+    partial class AddHospitalRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -220,9 +223,6 @@ namespace BDMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("HospitalId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -238,8 +238,6 @@ namespace BDMS.Infrastructure.Migrations
 
                     b.HasIndex("Email")
                         .IsUnique();
-
-                    b.HasIndex("HospitalId");
 
                     b.HasIndex("UserName")
                         .IsUnique();
@@ -286,20 +284,6 @@ namespace BDMS.Infrastructure.Migrations
                     b.Navigation("Donor");
 
                     b.Navigation("Hospital");
-                });
-
-            modelBuilder.Entity("BDMS.Domain.Entities.User", b =>
-                {
-                    b.HasOne("BDMS.Domain.Entities.Hospital", "Hospital")
-                        .WithMany("Users")
-                        .HasForeignKey("HospitalId");
-
-                    b.Navigation("Hospital");
-                });
-
-            modelBuilder.Entity("BDMS.Domain.Entities.Hospital", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,6 +7,7 @@ using BDMS.Application.DTOs;
 using BDMS.Application.Interfaces;
 using BDMS.Domain.Entities;
 using BCrypt.Net;
+using BDMS.Domain.Enums;
 
 namespace BDMS.Application.Services
 {
@@ -32,7 +33,7 @@ namespace BDMS.Application.Services
                 return false;
             }
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-            var user = new User(dto.Username, passwordHash, dto.Email, "User");
+            var user = new User(dto.Username, passwordHash, dto.Email, Role.User);
             await _user.AddAsync(user);
             await _user.SaveChangesAsync();
             return true;
@@ -49,7 +50,7 @@ namespace BDMS.Application.Services
             return isValid ? user : null;
         }
 
-        public async Task<bool> UpdateUserRoleAsync(int userId, string newRole)
+        public async Task<bool> UpdateUserRoleAsync(int userId, Role newRole)
         {
             var user = await _user.GetByIdAsync(userId);
             if(user == null)

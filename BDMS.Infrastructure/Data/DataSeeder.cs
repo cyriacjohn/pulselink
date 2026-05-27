@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BDMS.Domain.Entities;
 using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
+using BDMS.Domain.Enums;
 
 namespace BDMS.Infrastructure.Data
 {
@@ -13,12 +14,12 @@ namespace BDMS.Infrastructure.Data
     {
         public static async Task SeedAdminAsync(BDMSDbContext db)
         {
-            if (await db.Users.AnyAsync(u => u.Role == "Admin"))
+            if (await db.Users.AnyAsync(u => u.Role == Role.Admin))
             {
                 return;
             }
 
-            var admin = new User("admin", BCrypt.Net.BCrypt.HashPassword("Admin123"), "admin@bdms.com", "Admin");
+            var admin = new User("admin", BCrypt.Net.BCrypt.HashPassword("Admin123"), "admin@bdms.com", Role.Admin);
             await db.Users.AddAsync(admin);
             await db.SaveChangesAsync();
         }

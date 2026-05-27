@@ -60,7 +60,7 @@ namespace BDMS.Api.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, Convert.ToString(user.Id)),
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, Convert.ToString(user.Role))
             };
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

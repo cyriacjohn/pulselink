@@ -1,10 +1,12 @@
 ﻿using BDMS.Application.Services;
 using BDMS.Domain.Enums;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BDMS.Api.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Hospital")]
     [Route("api/[controller]")]
     public class SmartMatchingController : ControllerBase
     { 

@@ -64,7 +64,7 @@ namespace BDMS.Infrastructure.Services
                 }
 
                 var hospitals = await _dbContext.Hospitals.ToListAsync();
-                var result = hospitals.Select(h => new Hospital
+                var result = hospitals.Select(h => new Hospital 
                 {
                     Id = h.Id,
                     Name = h.Name,
@@ -81,6 +81,29 @@ namespace BDMS.Infrastructure.Services
                 Console.WriteLine("ERROR: " + ex);
                 throw;
             }
+        }
+
+        public async Task<HospitalDashboardDTO> FindAsync(int hospitalId)
+        {
+            var cacheKey = $"hospital_dashboard_{hospitalId}";
+            var cacheData = await _cache.GetAsync(cacheKey);
+            if (cacheData != null)
+            {
+                return JsonSerializer.Deserialize<HospitalDashboardDTO>(cacheData);
+            }
+            var hospital = await _dbContext.Hospitals.FirstAsync(h => h.Id == hospitalId);
+            var inventoryCount = await _dbContext.BloodInventory.Where(x => x.HospitalId == hospitalId).SumAsync(x => x.UnitsAvailable);
+            var activeRequests = await _dbContext.BloodRequests.CountAsync(x => x.HospitalId == hospitalId && !x.IsFulfilled);
+            var completedDonations = await _dbContext.Donations.CountAsync(x => x.HospitalId == hospitalId &&  x.Status == DonationStatus.Completed);
+            var hospitalDashboard = new HospitalDashboardDTO
+            {
+                HospitalName = hospital.Name,
+                InventoryCount = inventoryCount,
+                ActiveRequests = activeRequests,
+                CompletedDonations = completedDonations,
+            };
+            await _cache.SetAsync(cacheKey, JsonSerializer.Serialize(hospitalDashboard) , TimeSpan.FromMinutes(5));
+            return hospitalDashboard;
         }
     }
 }

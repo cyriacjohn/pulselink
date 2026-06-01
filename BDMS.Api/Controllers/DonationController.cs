@@ -17,10 +17,12 @@ namespace BDMS.Api.Controllers
     {
         private readonly DonationService _service;
         private readonly CertificateGenerator _certificateGenerator;
-        public DonationController(DonationService service, CertificateGenerator certificateGenerator)
+        private readonly HospitalService _hospital;
+        public DonationController(DonationService service, CertificateGenerator certificateGenerator, HospitalService hospital)
         {
             _service = service;
             _certificateGenerator = certificateGenerator;
+            _hospital = hospital;
         }
 
         [HttpPost]

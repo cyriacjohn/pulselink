@@ -33,5 +33,21 @@ namespace BDMS.Api.Controllers
             var hospital = await _service.CreateAsync(dto);
             return Ok(hospital);
         }
+
+        [Authorize(Roles = "Hospital")]
+        [HttpGet("hospital-dashboard")]
+        public async Task<IActionResult> Dashboard()
+        {
+            var hospitalId = Convert.ToInt32(User.FindFirst("HospitalId").Value);
+            if (hospitalId > 0)
+            {
+                var hospital = await _service.FindAsync(hospitalId);
+                return Ok(hospital);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
     }
 }

@@ -49,5 +49,24 @@ namespace BDMS.Api.Controllers
                 return Unauthorized();
             }
         }
+
+        [Authorize(Roles = "Hospital")]
+        [HttpPost]
+        public async Task<IActionResult> CreateRequest([FromBody] BloodRequestDTO dto)
+        {
+            var hospitalId = Convert.ToInt32(User.FindFirst("HospitalId").Value);
+            if (hospitalId > 0)
+            {
+                var requestId = await _service.CreateRequestAsync(hospitalId, dto);
+                return Ok(new
+                {
+                    RequestId = requestId
+                });
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
     }
 }

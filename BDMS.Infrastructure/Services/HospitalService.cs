@@ -105,5 +105,20 @@ namespace BDMS.Infrastructure.Services
             await _cache.SetAsync(cacheKey, JsonSerializer.Serialize(hospitalDashboard) , TimeSpan.FromMinutes(5));
             return hospitalDashboard;
         }
+
+        public async Task<int> CreateRequestAsync(int hospitalId, BloodRequestDTO dto)
+        {
+            var request = new BloodRequest
+            {
+                HospitalId = hospitalId,
+                bloodGroup = dto.BloodGroup,
+                UnitsRequired = dto.UnitsRequired,
+                Priority = dto.Priority,
+                IsFulfilled = false
+            };
+            await _dbContext.BloodRequests.AddAsync(request);
+            await _dbContext.SaveChangesAsync();
+            return request.Id;
+        }
     }
 }

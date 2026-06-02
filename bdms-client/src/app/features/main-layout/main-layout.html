@@ -8,10 +8,15 @@
       <a routerLink="/inventory">Inventory</a>
     </div>
 
-    <div *ngIf="!isAdmin">
+    <div *ngIf="isUser">
       <a routerLink="/user-dashboard">Dashboard</a>
       <a routerLink="/donate">Donate Blood</a>
       <a routerLink="/my-donations">My Donations</a>
+    </div>
+
+    <div *ngIf="isHospital">
+      <a routerLink="/hospital-dashboard">Dashboard</a>
+      <a routerLink="/blood-requests">Create Request</a>
     </div>
   </aside>
 

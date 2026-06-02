@@ -19,11 +19,15 @@ export class MainLayout {
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
   isAdmin = false;
+  isHospital = false;
+  isUser = false;
 
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.isAdmin = this.authService.isAdmin();
+    this.isHospital = this.authService.isHospital();
+    this.isUser = this.authService.isUser();
   }
   
 

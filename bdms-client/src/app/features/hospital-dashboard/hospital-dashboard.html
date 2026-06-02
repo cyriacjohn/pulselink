@@ -1,0 +1,20 @@
+<h1>Hospital Dashboard</h1>
+
+<div *ngIf="dashboard">
+
+  <p>
+    Hospital: {{ dashboard.hospitalName }}
+  </p>
+
+  <p>
+    Inventory Units: {{ dashboard.inventoryCount }}
+  </p>
+
+  <p>
+    Active Requests: {{ dashboard.activeRequests }}
+  </p>
+
+  <p>
+    Completed Donations: {{ dashboard.completedDonations }}
+  </p>
+</div>

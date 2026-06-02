@@ -29,8 +29,11 @@ export class Login {
             if (this.authService.isAdmin()) {
               this.router.navigate(['/dashboard']);
             }
-            else {
+            else if (this.authService.isUser()) {
               this.router.navigate(['/user-dashboard']);
+            }
+            else {
+              this.router.navigate(['/hospital-dashboard']);
             }
           });
         },

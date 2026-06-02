@@ -54,5 +54,13 @@ export class AuthService {
     const decoded: any = jwtDecode(token);
     return Number(decoded.nameId);
   }
+
+  isHospital(): boolean {
+    return this.getRole() == 'Hospital';
+  }
+
+  isUser(): boolean {
+    return this.getRole() == 'User';
+  }
 }
 

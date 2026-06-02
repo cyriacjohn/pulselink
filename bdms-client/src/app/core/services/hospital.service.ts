@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { HospitalDashboard } from '../../features/hospital-dashboard/hospital-dashboard'; 
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,9 @@ export class HospitalService {
         Authorization: `Bearer ${token}`
 }
     });
+  }
+
+  getHospitalStats() {
+    return this.http.get<HospitalDashboard>(`${environment.apiUrl}/hospitals/hospital-dashboard`);
   }
 }

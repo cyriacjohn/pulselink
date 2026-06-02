@@ -13,6 +13,8 @@ import { Donate } from './donations/donate/donate';
 import { MyDonations } from './features/donations/my-donations/my-donations';
 import { UserDashboard } from './features/user-dashboard/user-dashboard';
 import { SmartMatch } from './features/smartmatch/smartmatch'; 
+import { HospitalDashboard } from './features/hospital-dashboard/hospital-dashboard';
+import { BloodRequests } from './features/blood-requests/blood-requests';
 
 export const routes: Routes = [
   {
@@ -46,6 +48,12 @@ export const routes: Routes = [
       },
       {
         path: 'smartmatch/:id', component: SmartMatch
+      },
+      {
+        path: 'hospital-dashboard', component: HospitalDashboard
+      },
+      {
+        path: 'blood-requests', component: BloodRequests
       }
     ]
   },

@@ -48,7 +48,9 @@ namespace BDMS.Application.Services
                     LastDonatedDate = donor.LastDonatedDate,
                     Score = score,
                     Latitude = donor.Latitude,
-                    Longitude = donor.Longitude
+                    Longitude = donor.Longitude,
+                    HospitalLatitude = request.Hospital.Latitude,
+                    HospitalLongtitude = request.Hospital.Longitude
                 });
                     }
             return result.OrderByDescending(x => x.Score).Take(5).ToList();

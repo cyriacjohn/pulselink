@@ -68,7 +68,7 @@ namespace BDMS.Infrastructure.Repositories
             {
                 throw new Exception("Donation not found");
             }
-            return  _certificateGenerator.Generate(donation.Donor.Name, donation.Hospital.Name, donation.CertificateNumber);
+            return _certificateGenerator.Generate(donation.Donor.Name, donation.Hospital.Name, donation.CertificateNumber);
         }
 
         public async Task<Dictionary<string, int>> GetBloodGroupStatsAsync()

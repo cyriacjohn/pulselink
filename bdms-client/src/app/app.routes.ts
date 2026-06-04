@@ -47,7 +47,7 @@ export const routes: Routes = [
         path: 'user-dashboard', component: UserDashboard
       },
       {
-        path: 'smartmatch/:id', component: SmartMatch
+        path: 'smartmatch', component: SmartMatch
       },
       {
         path: 'hospital-dashboard', component: HospitalDashboard

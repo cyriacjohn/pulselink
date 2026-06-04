@@ -24,4 +24,16 @@ export class HospitalService {
   getHospitalStats() {
     return this.http.get<HospitalDashboard>(`${environment.apiUrl}/hospitals/hospital-dashboard`);
   }
+
+  getBloodGroups() {
+    return this.http.get<any[]>(`${environment.apiUrl}/hospitals/bloodgroups`);
+  }
+
+  createRequest(data: any) {
+    return this.http.post(`${environment.apiUrl}/hospitals/hospital-request`, data);
+  }
+
+  getOpenRequests() {
+    return this.http.get<any[]>(`${environment.apiUrl}/hospitals/open-requests`);
+  }
 }

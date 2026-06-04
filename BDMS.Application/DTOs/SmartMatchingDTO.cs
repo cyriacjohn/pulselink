@@ -16,5 +16,7 @@ namespace BDMS.Application.DTOs
         public int Score { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public double HospitalLatitude { get; set; }
+        public double HospitalLongtitude { get; set; }
     }
 }

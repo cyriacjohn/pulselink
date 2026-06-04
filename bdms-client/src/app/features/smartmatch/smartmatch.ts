@@ -2,22 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { SmartMatchingService } from '../../core/services/smartmatching.service';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router'; 
+import { ActivatedRoute } from '@angular/router';
+import { HospitalService } from '../../core/services/hospital.service';
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-smartmatch',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './smartmatch.html',
   styleUrl: './smartmatch.css',
 })
 export class SmartMatch implements OnInit {
   private map!: L.Map;
-  constructor(private smartMatchingService: SmartMatchingService, private route: ActivatedRoute) { }
-  ngOnInit(): void {
+  constructor(private smartMatchingService: SmartMatchingService, private route: ActivatedRoute, private hospitalService: HospitalService) { }
+  requests: any[] = [];
+  ngOnInit() {
+    this.hospitalService.getOpenRequests().subscribe((res: any) => {
+      this.requests = res;
+    });
     this.initMap();
-    const requestId = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('Request ID:', requestId);
-    this.loadDonors(requestId);
   }
 
   initMap() {
@@ -26,7 +29,7 @@ export class SmartMatch implements OnInit {
     const hospitalIcon = L.icon({
       iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
       iconSize: [32, 32]
-    }); 
+    });
     const hospitalLat = 10.030;
     const hospitalLng = 76.310;
     L.marker([hospitalLat, hospitalLng], {
@@ -34,16 +37,14 @@ export class SmartMatch implements OnInit {
     }).addTo(this.map).bindPopup("Hospital Location");
   }
 
-  loadDonors(requestId: number) {
-    this.smartMatchingService.smartMatch(requestId).subscribe(data => {
-      console.log(data);
-      this.plotDonors(data);
-    })
-  }
+  //loadDonors(requestId: number) {
+  //  this.smartMatchingService.smartMatch(requestId).subscribe(data => {
+  //    console.log(data);
+  //    this.plotDonors(data);
+  //  })
+  //}
 
   plotDonors(donors: any[]) {
-    const hospitalLat = 10.030;
-    const hospitalLng = 76.310;
     donors.forEach((d, index) => {
       if (d.latitude == null || d.longitude == null) {
         return;
@@ -62,11 +63,18 @@ export class SmartMatch implements OnInit {
                         Score: ${d.score}`);
 
       L.polyline([
-        [hospitalLat, hospitalLng],
+        [d.hospitalLatitude, d.HospitalLongtitude],
         [d.latitude, d.longitude]],
         {
           color: index < 3 ? 'green' : 'blue'
         }).addTo(this.map);
+    });
+  }
+
+  findMatches(requestId: number) {
+    this.smartMatchingService.smartMatch(requestId).subscribe(data => {
+      console.log(data);
+      this.plotDonors(data);
     });
   }
 }

@@ -114,11 +114,26 @@ namespace BDMS.Infrastructure.Services
                 bloodGroup = dto.BloodGroup,
                 UnitsRequired = dto.UnitsRequired,
                 Priority = dto.Priority,
-                IsFulfilled = false
+                IsFulfilled = false,
+                RequestedAt = DateTime.UtcNow
             };
             await _dbContext.BloodRequests.AddAsync(request);
             await _dbContext.SaveChangesAsync();
             return request.Id;
         }
+
+        public async Task<List<BloodRequest>> GetOpenRequestsAsync()
+        {
+            try
+            {
+                return await _dbContext.BloodRequests.Where(x => !x.IsFulfilled).ToListAsync();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("ERROR: " + ex);
+                throw;
+            }
+        }
+
     }
 }

@@ -1,22 +1,43 @@
 <div class="container mt-5 d-flex justify-content-center">
 
+
   <div class="card shadow-sm" style="max-width:500px">
     <div class="card-header bg-danger text-white">Create Request</div>
 
-    <div class="card-body">     
-      <div class="mb-3">
-        <label class="form-label">Select Blood Group</label>
 
-        <select class="form-control" [(ngModel)]="donation.hospitalId" name="hospitalId">
-          <option *ngFor="let h of hospitals" [value]="h.id">
-            {{ h.name }} - {{ h.city }}
-          </option>
-        </select>
-      </div>
+    <form [formGroup]="data" (ngSubmit)="request()">
 
-      <button class="btn btn-success mt-3" (click)="donate()" [disabled]="!donation.hospitalId">Donate</button>
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label">Select Blood Group</label>
+
+          <select class="form-control" name="bloodGroup" required formControlName="bloodGroup">
+            <option *ngFor="let bg of bloodGroup" [value]="bg">
+              {{ bg }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Units Required</label>
+          <input type="number" class="form-control" name="unitsRequired" placeholder="Enter the number of Units Required" max="10" min="1" step="=1" required formControlName="unitsRequired" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Priority</label>
+          <select class="form-control" name="priority" required formControlName="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Critical">Critical</option>
+          </select>
+        </div>
+    <button class="btn btn-success mt-3" (click)="request()" [disabled]="data.invalid">Request</button>
+
     </div>
+      </form>
   </div>
+
 </div>
 
 

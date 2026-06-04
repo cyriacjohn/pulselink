@@ -14,16 +14,20 @@ using StackExchange.Redis;
 using System.Data;
 using System.Net.WebSockets;
 using System.Text;
-using static QuestPDF.Helpers.Colors;
+//using static QuestPDF.Helpers.Colors;
 using BDMS.Domain.Entities;
 using BDMS.Domain.Enums;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 Console.WriteLine(jwtSettings["Key"]);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -183,7 +187,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<NotificationHub>("/api/notifications");
-QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+//QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 app.Run();
 
 

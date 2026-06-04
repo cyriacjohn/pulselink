@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using BDMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using BDMS.Infrastructure.Services;
+using BDMS.Domain.Enums;
 
 namespace BDMS.Api.Controllers
 {
@@ -27,7 +28,7 @@ namespace BDMS.Api.Controllers
             return Ok(hospitals);
         }
 
-        [HttpPost]
+        [HttpPost("create-hospital")]
         public async Task<IActionResult> Create([FromBody] CreateHospitalDTO dto)
         {
             var hospital = await _service.CreateAsync(dto);
@@ -51,7 +52,7 @@ namespace BDMS.Api.Controllers
         }
 
         [Authorize(Roles = "Hospital")]
-        [HttpPost]
+        [HttpPost("hospital-request")]
         public async Task<IActionResult> CreateRequest([FromBody] BloodRequestDTO dto)
         {
             var hospitalId = Convert.ToInt32(User.FindFirst("HospitalId").Value);
@@ -67,6 +68,22 @@ namespace BDMS.Api.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+        [Authorize(Roles = "Hospital")]
+        [HttpGet("bloodgroups")]
+        public async Task <IActionResult> BloodGroups()
+        {
+            var bloodGroups = Enum.GetNames(typeof(BloodGroup));
+            return Ok(bloodGroups);
+        }
+
+        [Authorize(Roles = "Hospital")]
+        [HttpGet("open-requests")]
+        public async Task<IActionResult> GetOpenBloodRequests()
+        {
+            var requests = await _service.GetOpenRequestsAsync();
+            return Ok(requests);
         }
     }
 }

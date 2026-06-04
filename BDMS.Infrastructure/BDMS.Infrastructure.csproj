@@ -18,7 +18,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.3" />
-    <PackageReference Include="QuestPDF" Version="2026.2.2" />
+    <PackageReference Include="QuestPDF" Version="2026.5.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.11.8" />
   </ItemGroup>
 

@@ -1,1 +1,9 @@
-<div id="map" style="height: 500px;"></div> 
+<div id="map" style="height: 500px;"></div>
+
+<div *ngFor="let request of requests">
+  {{ request.bloodGroup }}
+  {{ request.unitsRequired }}
+  {{ request.priority }}
+
+  <button class="btn btn-primary" (click)="findMatches(request.id)">Find Donors</button>
+</div>

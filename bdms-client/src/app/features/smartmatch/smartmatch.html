@@ -1,9 +1,29 @@
 <div id="map" style="height: 500px;"></div>
 
-<div *ngFor="let request of requests">
-  {{ request.bloodGroup }}
-  {{ request.unitsRequired }}
-  {{ request.priority }}
+<hr />
+<h3>Top Matching Donors</h3>
 
-  <button class="btn btn-primary" (click)="findMatches(request.id)">Find Donors</button>
-</div>
+<table class="table table-striped" *ngIf="matchedDonors.length > 0">
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>BloodGroup</th>
+      <th>Score</th>
+      <th>Action</th>
+    </tr>
+
+    </thead>
+
+  <tbody>
+    <tr *ngFor="let donor of matchedDonors; let i = index" [class.table-success]="i < 3">
+      <td>{{ i + 1 }}</td>
+      <td>{{ donor.name }}</td>
+      <td>{{ donor.bloodGroup }}</td>
+      <td>{{ donor.score }}</td>
+      <td>
+        <button class="btn btn-success">Notify</button>
+      </td>
+    </tr>
+    </tbody>
+</table>

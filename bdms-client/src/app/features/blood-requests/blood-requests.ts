@@ -38,9 +38,9 @@ export class BloodRequests {
       return;
     }
     this.hospitalService.createRequest(this.data.value).subscribe({
-      next: () => {
+      next: (res: any) => {
         this.toastr.success('Request created successfully');
-        this.router.navigate(['/smartmatch']);
+        this.router.navigate(['/smartmatch', res.requestId]);
       },
       error: (err: any) => this.toastr.error('Request failed.')
     });

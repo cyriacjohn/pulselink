@@ -14,35 +14,14 @@ import { CommonModule } from '@angular/common';
 })
 export class SmartMatch implements OnInit {
   private map!: L.Map;
+  matchedDonors: any[] = [];
   constructor(private smartMatchingService: SmartMatchingService, private route: ActivatedRoute, private hospitalService: HospitalService) { }
-  requests: any[] = [];
   ngOnInit() {
-    this.hospitalService.getOpenRequests().subscribe((res: any) => {
-      this.requests = res;
-    });
-    this.initMap();
+/*    this.initMap();*/
+    const requestId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('Request ID:', requestId);
+    this.findMatches(requestId);
   }
-
-  initMap() {
-    this.map = L.map('map').setView([10.0159, 76.3419], 12);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(this.map);
-    const hospitalIcon = L.icon({
-      iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
-      iconSize: [32, 32]
-    });
-    const hospitalLat = 10.030;
-    const hospitalLng = 76.310;
-    L.marker([hospitalLat, hospitalLng], {
-      icon: hospitalIcon
-    }).addTo(this.map).bindPopup("Hospital Location");
-  }
-
-  //loadDonors(requestId: number) {
-  //  this.smartMatchingService.smartMatch(requestId).subscribe(data => {
-  //    console.log(data);
-  //    this.plotDonors(data);
-  //  })
-  //}
 
   plotDonors(donors: any[]) {
     donors.forEach((d, index) => {
@@ -63,7 +42,7 @@ export class SmartMatch implements OnInit {
                         Score: ${d.score}`);
 
       L.polyline([
-        [d.hospitalLatitude, d.HospitalLongtitude],
+        [d.hospitalLatitude, d.hospitalLongtitude],
         [d.latitude, d.longitude]],
         {
           color: index < 3 ? 'green' : 'blue'
@@ -72,8 +51,22 @@ export class SmartMatch implements OnInit {
   }
 
   findMatches(requestId: number) {
-    this.smartMatchingService.smartMatch(requestId).subscribe(data => {
+    this.smartMatchingService.smartMatch(requestId).subscribe((data: any) => {
+      if (data.length > 0) {
+        const hospitalLat = data[0].hospitalLatitude;
+        const hospitalLng = data[0].hospitalLongtitude;
+        this.map = L.map('map').setView([hospitalLat, hospitalLng], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(this.map);
+        const hospitalIcon = L.icon({
+          iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+          iconSize: [32, 32]
+        });
+        L.marker([hospitalLat, hospitalLng], {
+          icon: hospitalIcon
+        }).addTo(this.map).bindPopup("Hospital Location");
+      }
       console.log(data);
+      this.matchedDonors = data;
       this.plotDonors(data);
     });
   }

@@ -22,7 +22,7 @@
       <td>{{ donor.bloodGroup }}</td>
       <td>{{ donor.score }}</td>
       <td>
-        <button class="btn btn-success">Notify</button>
+        <button class="btn btn-success" (click)="notifyDonor(donor.id)">Notify</button>
       </td>
     </tr>
     </tbody>

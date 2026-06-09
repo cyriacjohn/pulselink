@@ -3,13 +3,14 @@ using BDMS.Application.Interfaces;
 using BDMS.Domain.Entities;
 using BDMS.Domain.Enums;
 using BDMS.Domain.Logic;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
-using System.Text.Json;
 
 namespace BDMS.Application.Services
 {
@@ -19,12 +20,14 @@ namespace BDMS.Application.Services
         private readonly IBloodRequestRepository _bloodRequestRepository;
         private readonly IGoogleMapsService _googleMapsService;
         private readonly ICacheService _cache;
-        public SmartMatchingService(IDonorRepository repository, IBloodRequestRepository bloodRequestRepository, IGoogleMapsService googleMapsService, ICacheService cache)
+        private readonly IDonationRepository _donationRepository;
+        public SmartMatchingService(IDonorRepository repository, IBloodRequestRepository bloodRequestRepository, IGoogleMapsService googleMapsService, ICacheService cache, IDonationRepository donationRepository)
         {
             _repository = repository;
             _bloodRequestRepository = bloodRequestRepository;
             _googleMapsService = googleMapsService;
             _cache = cache;
+            _donationRepository = donationRepository;
         }
 
         public async Task<List<SmartMatchingDTO>> FindMatchingDonors(int requestId)
@@ -62,7 +65,8 @@ namespace BDMS.Application.Services
                         Latitude = donor.Latitude,
                         Longitude = donor.Longitude,
                         HospitalLatitude = request.Hospital.Latitude,
-                        HospitalLongtitude = request.Hospital.Longitude
+                        HospitalLongtitude = request.Hospital.Longitude,
+                        Distance = distance
                     });
                 }
                 await _cache.SetAsync(cacheKey, JsonSerializer.Serialize(result), TimeSpan.FromMinutes(15));
@@ -73,6 +77,22 @@ namespace BDMS.Application.Services
                 Console.WriteLine("ERROR: " + ex);
                 throw;
             }
+        }
+
+        public async Task<Donation> CreateDonationRequest(NotifyDonorsDTO dto)
+        {
+            var request = await _bloodRequestRepository.GetByIdAsync(dto.RequestId);
+            var donation = new Donation
+            {
+                HospitalId = request.HospitalId,
+                DonorId = dto.DonorId,
+                DonationDate = DateTime.UtcNow,
+                Status = DonationStatus.Pending
+            };
+            await _donationRepository.AddAsync(donation);
+            await _donationRepository.SaveChangesAsync();
+            return donation;
+
         }
     }
 }

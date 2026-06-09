@@ -9,6 +9,7 @@ namespace BDMS.Domain.Entities
     public class Hospital
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
@@ -16,5 +17,6 @@ namespace BDMS.Domain.Entities
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public ICollection<User> Users { get; set; }
+        public User User { get; set; }
     }
 }

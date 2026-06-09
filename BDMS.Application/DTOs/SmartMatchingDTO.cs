@@ -18,5 +18,6 @@ namespace BDMS.Application.DTOs
         public double Longitude { get; set; }
         public double HospitalLatitude { get; set; }
         public double HospitalLongtitude { get; set; }
+        public double Distance { get; set; }
     }
 }

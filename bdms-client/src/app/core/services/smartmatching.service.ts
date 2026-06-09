@@ -12,4 +12,8 @@ export class SmartMatchingService {
   smartMatch(requestId: number) {
     return this.http.get<any[]>(`${environment.apiUrl}/SmartMatching/smart-match/${requestId}`);
   }
+
+  notifyDonors(data: any) {
+    return this.http.post(`${environment.apiUrl}/SmartMatching/notify-donor`, data);
+  }
 }

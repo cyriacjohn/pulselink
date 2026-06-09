@@ -15,12 +15,13 @@ import { CommonModule } from '@angular/common';
 export class SmartMatch implements OnInit {
   private map!: L.Map;
   matchedDonors: any[] = [];
+  requestId!: number;
   constructor(private smartMatchingService: SmartMatchingService, private route: ActivatedRoute, private hospitalService: HospitalService) { }
   ngOnInit() {
 /*    this.initMap();*/
-    const requestId = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('Request ID:', requestId);
-    this.findMatches(requestId);
+    this.requestId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('Request ID:', this.requestId);
+    this.findMatches(this.requestId);
   }
 
   plotDonors(donors: any[]) {
@@ -39,7 +40,8 @@ export class SmartMatch implements OnInit {
 
       marker.bindPopup(`<b>${d.name} </b><br/>
                         Blood: ${d.bloodGroup} <br/>
-                        Score: ${d.score}`);
+                        Score: ${d.score}</br>
+                        ${d.distance} kms away`);
 
       L.polyline([
         [d.hospitalLatitude, d.hospitalLongtitude],
@@ -70,4 +72,15 @@ export class SmartMatch implements OnInit {
       this.plotDonors(data);
     });
   }
-}
+
+  notifyDonor(donorId: number) {
+    const donor =
+    {
+      donorId: donorId,
+      requestId: this.requestId
+      }
+    this.smartMatchingService.notifyDonors(donor).subscribe(() => {
+      alert('Notification sent');
+    });
+  }
+  }

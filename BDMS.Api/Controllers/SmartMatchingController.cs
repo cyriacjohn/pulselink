@@ -1,4 +1,5 @@
-﻿using BDMS.Application.Services;
+﻿using BDMS.Application.DTOs;
+using BDMS.Application.Services;
 using BDMS.Domain.Enums;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,13 @@ namespace BDMS.Api.Controllers
         {
             var result = await _service.FindMatchingDonors(requestId);
             return Ok(result);
+        }
+
+        [HttpPost("notify-donor")]
+        public async Task<IActionResult> NotifyDonors([FromBody] NotifyDonorsDTO dto)
+        {
+            var donation = await _service.CreateDonationRequest(dto);
+            return Ok(donation);
         }
     }
 }

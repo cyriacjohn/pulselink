@@ -7,6 +7,7 @@
         <th>Date</th>
         <th>Status</th>
         <th>Certificate</th>
+        <th>Approve/Reject</th>
       </tr>
     </thead>
 
@@ -16,14 +17,20 @@
         <td>{{ donation.donationDate | date }}</td>
         <td>
           <span [ngClass]="
-        {
-        'badge bg-warning': donation.status == 0,
-         'badge bg-success': donation.status == 1,
-          'badge bg-primary': donation.status == 2,
-          'badge bg-danger': donation.status == 3}">{{ getStatusText(donation.status)}}</span>
+{
+'badge bg-warning': donation.status === 'Pending',
+ 'badge bg-success': donation.status === 'Approved',
+  'badge bg-primary': donation.status === 'Completed',
+  'badge bg-danger': donation.status === 'Rejected' }">
+            {{ donation.status}}
+          </span>
         </td>
         <td>
-          <button *ngIf="donation.status === 1" class="btn btn-primary btn-sm" (click)="download(donation.id)">Download</button>
+          <button *ngIf="donation.status === 'Approved'" class="btn btn-primary btn-sm" (click)="download(donation.id)">Download</button>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-success" *ngIf="donation.status === 'Pending'" (click)="approve(donation.id)">Approve</button>
+          <button class="btn btn-sm btn-danger" *ngIf="donation.status === 'Pending'" (click)="reject(donation.id)">Reject</button>
         </td>
       </tr>
     </tbody>

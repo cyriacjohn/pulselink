@@ -13,7 +13,7 @@ namespace BDMS.Infrastructure.Services
     public class CertificateGenerator
     {
         public byte[] Generate(string donorName, string hospitalName, string certificateNumber)
-        {
+            {
             return Document.Create(container =>
             {
                 container.Page(page =>

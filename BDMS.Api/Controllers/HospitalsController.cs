@@ -85,5 +85,13 @@ namespace BDMS.Api.Controllers
             var requests = await _service.GetOpenRequestsAsync();
             return Ok(requests);
         }
+
+        [Authorize(Roles ="Hospital")]
+        [HttpPost("mark-as-completed")]
+        public async Task<IActionResult> MarkAsCompleted(int id)
+        {
+            var status = _service.MarkAsCompleted(id);
+            return NoContent();
+        }
     }
 }

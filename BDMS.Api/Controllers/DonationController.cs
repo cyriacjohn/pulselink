@@ -43,7 +43,7 @@ namespace BDMS.Api.Controllers
             return Ok(donation);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("{id}/approve")]
         public async Task<IActionResult> ApproveAsync(int id)
         {
@@ -51,7 +51,7 @@ namespace BDMS.Api.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("{id}/reject")]
         public async Task<IActionResult> RejectAsync(int id)
         {

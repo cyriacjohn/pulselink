@@ -15,11 +15,13 @@ namespace BDMS.Infrastructure.Services
     {
         private readonly BDMSDbContext _dbContext;
         private readonly ICacheService _cache;
+        private readonly IDonationRepository _repository;
 
-        public HospitalService(BDMSDbContext dbContext, ICacheService cache)
+        public HospitalService(BDMSDbContext dbContext, ICacheService cache, IDonationRepository repository)
         {
             _dbContext = dbContext;
             _cache = cache;
+            _repository = repository;
         }
 
         public async Task<Hospital> CreateAsync(CreateHospitalDTO dto)
@@ -133,6 +135,20 @@ namespace BDMS.Infrastructure.Services
                 Console.WriteLine("ERROR: " + ex);
                 throw;
             }
+        }
+
+        public async Task MarkAsCompleted(int donationId)
+        {
+            var donation = await _repository.GetByIdWithDetailsAsync(donationId);
+            if(donation != null) 
+            {
+                if(donation.Status == DonationStatus.Approved)
+                {
+                    donation.Status = DonationStatus.Completed;
+                }
+            }
+            await _repository.AddAsync(donation);
+            await _repository.SaveChangesAsync();
         }
 
     }

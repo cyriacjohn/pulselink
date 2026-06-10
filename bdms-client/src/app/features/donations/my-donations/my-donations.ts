@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { DonationService } from '../../../core/services/donation.service';
+import { ToastrService } from 'ngx-toastr'; 
 
 @Component({
   selector: 'app-my-donations',
@@ -13,12 +14,13 @@ import { DonationService } from '../../../core/services/donation.service';
 })
 export class MyDonations {
   donations: any[] = [];
-  constructor(private http: HttpClient, private donationService: DonationService) { }
+  constructor(private http: HttpClient, private donationService: DonationService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.http.get(`${environment.apiUrl}/donation/my`).subscribe((res: any) => {
-      this.donations = res;
-    });
+    //this.http.get(`${environment.apiUrl}/donation/my`).subscribe((res: any) => {
+    //  this.donations = res;
+    //});
+    this.loadMyDonations();
   }
 
   download(id: number) {
@@ -34,17 +36,29 @@ export class MyDonations {
     })
   }
 
-  getStatusText(status: number): string {
-    switch (status) {
-      case 0: return 'Pending';
-        break;
-      case 1: return 'Approved';
-        break;
-      case 2: return 'Completed';
-        break;
-      case 3: return 'Rejected';
-        break;
-      default: return '';
-    }
+  loadMyDonations() {
+    this.http.get(`${environment.apiUrl}/donation/my`).subscribe((res: any) => {
+      this.donations = res;
+    });
   }
+
+  approve(donorId: number) {
+    this.donationService.approve(donorId).subscribe({
+      next: () => {
+        this.toastr.success('Donation approved');
+        this.loadMyDonations();
+      }
+    });
+  }
+
+  reject(donorId: number) {
+    this.donationService.reject(donorId).subscribe({
+      next: () => {
+        this.toastr.warning('Donation rejected');
+        this.loadMyDonations();
+      }
+    });
+  }
+
 }
+
